@@ -9,6 +9,9 @@ coverage:
 build:
 	npm run build
 
+dev:
+	npm run dev
+
 push:
 	git push && git push --tags
 
