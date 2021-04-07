@@ -1,0 +1,1 @@
+export { TemposShowComponent } from './show'

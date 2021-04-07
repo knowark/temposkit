@@ -1,0 +1,55 @@
+{
+  "name": "@knowark/temposkit",
+  "version": "0.1.0",
+  "description": "Tempos Frontend Kit",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "dev": "webpack serve --mode development",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knowark/temposkit.git"
+  },
+  "author": "Knowark <it@knowark.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/knowark/temposkit/issues"
+  },
+  "homepage": "https://github.com/knowark/temposkit#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.13.12",
+    "clean-webpack-plugin": "^3.0.0",
+    "componark": "github:knowark/componark#v0.25.13",
+    "html-webpack-plugin": "^5.3.1",
+    "jest": "^26.6.3",
+    "webpack": "^5.30.0",
+    "webpack-cli": "^4.6.0"
+  },
+  "standard": {
+    "env": [
+      "jest",
+      "customElements"
+    ]
+  },
+  "jest": {
+    "verbose": true,
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "collectCoverageFrom": [
+      "**/src/**",
+      "!**/showcase/**"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!@knowark|componark)"
+    ],
+    "moduleNameMapper": {
+      "^src(.*)$": "<rootDir>/src$1",
+      "^base(.*)$": "<rootDir>/node_modules/componark/src/base$1",
+      "^components(.*)$": "<rootDir>/node_modules/componark/src/components$1"
+    }
+  }
+}
