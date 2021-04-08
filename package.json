@@ -14,6 +14,9 @@
   },
   "author": "Knowark <it@knowark.com>",
   "license": "ISC",
+  "files":  [
+    "dist"
+  ],
   "bugs": {
     "url": "https://github.com/knowark/temposkit/issues"
   },
