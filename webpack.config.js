@@ -7,23 +7,25 @@ module.exports = (env, argv) => {
   const devMode = argv.mode === 'development'
   const target = env.TARGET
   const apiUrl = (devMode ? 'http://api.tempos.local/graphql' : 
-    'https://api.tempos.local/graphql')
+    'https://api.tempos.shop/graphql')
 
   const config = {
     mode: argv.mode,
     entry: {
-      'index': './src/index.js',
-      'lib/show': './src/components/show/index.js',
-      'showcase/index': './src/showcase/index.js',
+      'temposkit': './src/index.js',
+      'showcase': './src/showcase/index.js',
+      'components/show': './src/components/show/index.js',
     },
-    optimization: {
-      runtimeChunk: 'single',
-      moduleIds: 'deterministic'
+    output: {
+      library: 'temposkit',
+      path: path.resolve(__dirname, 'dist'),
+      filename: '[name].min.js',
     },
     plugins: [
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
-        title: 'tempos'
+        title: 'tempos',
+        chunks: ['showcase']
       }),
       new DefinePlugin({
         PRODUCTION: !devMode,
