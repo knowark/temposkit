@@ -1,12 +1,12 @@
 import 'src/components/show'
-import { mockFetch } from '../__mocks__/fetch.js'
+import { mockFetch } from '../../__mocks__/fetchMock.js'
 
 
 describe('Show', () => {
   let container = null
   let component = null
 
-  global.fetch = jest.fn(mockFetch({}))
+  global.fetch = jest.fn(mockFetch({data: {}}))
 
   beforeEach(() => {
     global.fetch.mockClear()
@@ -38,14 +38,14 @@ describe('Show', () => {
     expect(search).toBeTruthy()
   })
 
-  it('fetches tempos products from its api', async () => {
-    const fetch = jest.fn(mockFetch({}))
+  xit('fetches tempos products from its api', async () => {
+    const fetch = jest.fn(mockFetch({ data: {} }))
     component.init({global: { fetch }})
 
     const query = `
-      query GeProducts($input: FilterInput) {
-        getProducts(input: $input) {
-          contacts {
+      query ShowProducts($input: ShowInput) {
+        showProducts(input: $input) {
+          products {
             id
             name
           }
@@ -69,7 +69,29 @@ describe('Show', () => {
     expect(body.query.replace(/\s/g, '')).toEqual(
       query.replace(/\s/g, '')) 
     expect(body.variables).toEqual(variables)
+ })
 
-    global.fetch.mockClear()
+  xit('renders products after being fetched', async () => {
+    const products = [
+      { id: '001', name: 'Orange Juice' },
+      { id: '002', name: 'Chocolate Cake' },
+      { id: '003', name: 'Special Brownie' }
+    ] 
+
+    const fetch = jest.fn(mockFetch({
+      data: {
+        showProducts: {products}
+      }
+    }))
+    component.init({global: { fetch }})
+
+    const variables = { limit: 20 }
+
+    await component.update()
+
+    const content = component.select('.tempos-show__content')
+
+    expect(content.children.length).toEqual(products.length)
+
   })
 })

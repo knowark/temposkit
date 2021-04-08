@@ -6,6 +6,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = (env, argv) => {
   const devMode = argv.mode === 'development'
   const target = env.TARGET
+  const apiUrl = (devMode ? 'https://api.tempos.local/graphql' : 
+    'https://api.tempos.local/graphql')
 
   const config = {
     mode: argv.mode,
@@ -26,14 +28,34 @@ module.exports = (env, argv) => {
       new DefinePlugin({
         PRODUCTION: !devMode,
         VERSION: JSON.stringify(require('./package.json').version),
-        TARGET: JSON.stringify(target)
+        TARGET: JSON.stringify(target),
+        API_URL: JSON.stringify(apiUrl)
       }),
       new EnvironmentPlugin({
-        ARK_DESIGN: 'material'
+        ARK_DESIGN: 'ark'
       })
     ],
     module: {
       rules: [
+        {
+          test: /\.(sa|sc|c)ss$/,
+          use: [
+            'css-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                sassOptions: {
+                  outputStyle: devMode ? 'expanded': 'compressed',
+                  includePaths: ['./node_modules']
+                }
+              }
+            }
+          ]
+        },
+        {
+          test: /\.(png|svg|jpg|gif)$/,
+          use: ['file-loader']
+        },
         {
           test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
           use: [
@@ -50,6 +72,7 @@ module.exports = (env, argv) => {
     },
     resolve: {
       alias: {
+        common: 'componark/src/common/',
         base: 'componark/src/base/',
         components: 'componark/src/components/'
       }

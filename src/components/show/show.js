@@ -1,43 +1,61 @@
 import { Component } from 'base/component'
+import { ApiClient, config } from 'common'
+import 'components/spinner'
 
 const tag = 'tempos-show'
 export class TemposShowComponent extends Component {
   init (context = {}) {
+    this.url = config.apiUrl 
     this.binding = 'tempos-show-listen'
-    this.url = 'https://api.tempos.shop/graphql'
     this.global = context.global || window 
-    this.data = []
+    this.client = new ApiClient()
+    this.data = {}
     return super.init(context)
   }
 
   render () {
-    this.content = /* html */ `
-    <div class="${tag}__search"></div>
-    `
+    if (this.data.showProducts) {
+      const products = this.data.showProducts.products
+      this.content = /* html */ `
+      <div class="${tag}__search"></div>
+      <div class="${tag}__content">
+        ${products.map(this.renderProduct).join('')}
+      </div>
+      `
+    } else {
+      this.content = /* html */ `
+      <ark-spinner></ark-spinner>
+      <div class="${tag}__search"></div>
+      <div class="${tag}__content"></div>
+      `
+    }
     return super.render()
+  }
+
+  renderProduct (product) {
+    return `
+    <div class="tempos-show__product">
+      <div class="tempos-show__product-name">${product.name}</div>
+      <div class="tempos-show__product-id">${product.id}</div>
+    </div>
+    `
   }
 
   async load () {
     const variables = { limit: 20 }
-    const result = await this.global.fetch(this.url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        query, variables
-      })
-    })
+
+    this.data = this.client.fetch(query, variables)
+
+    this.render()
 
     return super.load()
   }
 }
 
 const query = `                                        
-query GeProducts($input: FilterInput) {              
-  getProducts(input: $input) {                       
-    contacts {                                       
+query ShowProducts($input: ShowInput) {              
+  showProducts(input: $input) {                       
+    products {                                       
       id                                             
       name                                           
     }                                                
@@ -45,4 +63,10 @@ query GeProducts($input: FilterInput) {
 }                                                    
 `                                                      
 
-Component.define(tag, TemposShowComponent)
+const styles = `
+.tempos-show {
+  --primary: blue;
+}
+`
+
+Component.define(tag, TemposShowComponent, styles)
