@@ -5,10 +5,9 @@ import 'components/spinner'
 const tag = 'tempos-show'
 export class TemposShowComponent extends Component {
   init (context = {}) {
-    this.url = config.apiUrl 
+    const url = config.apiUrl 
     this.binding = 'tempos-show-listen'
-    this.global = context.global || window 
-    this.client = new ApiClient()
+    this.client = new ApiClient({ url })
     this.data = {}
     return super.init(context)
   }
@@ -42,9 +41,9 @@ export class TemposShowComponent extends Component {
   }
 
   async load () {
-    const variables = { limit: 20 }
+    const variables = { limit: 12 }
 
-    this.data = this.client.fetch(query, variables)
+    this.data = await this.client.fetch(query, variables)
 
     this.render()
 
@@ -53,8 +52,8 @@ export class TemposShowComponent extends Component {
 }
 
 const query = `                                        
-query ShowProducts($input: ShowInput) {              
-  showProducts(input: $input) {                       
+query ShowProducts($tenant: String = "demo", $input: FilterInput) {              
+  showProducts(tenant: $tenant, filter: $input) {                       
     products {                                       
       id                                             
       name                                           

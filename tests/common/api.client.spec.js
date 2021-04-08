@@ -2,8 +2,7 @@ import { ApiClient } from 'common'
 import { mockFetch } from '../__mocks__/fetchMock.js'
 
 describe('ApiClient', () => {
-
-  const url = 'https://api.tempos.local/graphql'
+  const url = 'http://api.tempos.local/graphql'
   const consoleSpy = jest.spyOn(
     console, 'error').mockImplementation(() => {})
 
@@ -79,7 +78,8 @@ describe('ApiClient', () => {
 
     expect(client).toBeTruthy()
     expect(consoleSpy).toHaveBeenCalledTimes(1)
-    expect(consoleSpy).toHaveBeenCalledWith('Failed to connect to Tempos API')
+    expect(consoleSpy).toHaveBeenCalledWith(
+      `Failed to connect to Tempos API: ${url}`)
   })
 
   it('logs graphql errors to the console', async () => {

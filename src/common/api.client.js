@@ -1,7 +1,7 @@
 export class ApiClient {
-  constructor(context = {}) {
+  constructor(context) {
     this.global = context.global || window
-    this.url = context.url || ''
+    this.url = context.url
   }
 
   async fetch(query, variables) {
@@ -17,7 +17,7 @@ export class ApiClient {
     })
 
     if (!response.ok) {
-      console.error('Failed to connect to Tempos API')
+      console.error(`Failed to connect to Tempos API: ${this.url}`)
       return {}
     }
 

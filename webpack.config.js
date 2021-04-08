@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = (env, argv) => {
   const devMode = argv.mode === 'development'
   const target = env.TARGET
-  const apiUrl = (devMode ? 'https://api.tempos.local/graphql' : 
+  const apiUrl = (devMode ? 'http://api.tempos.local/graphql' : 
     'https://api.tempos.local/graphql')
 
   const config = {
@@ -72,7 +72,7 @@ module.exports = (env, argv) => {
     },
     resolve: {
       alias: {
-        common: 'componark/src/common/',
+        common: path.resolve(__dirname, 'src/common/'),
         base: 'componark/src/base/',
         components: 'componark/src/components/'
       }
