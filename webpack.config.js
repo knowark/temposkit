@@ -25,7 +25,8 @@ module.exports = (env, argv) => {
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         title: 'tempos',
-        chunks: ['showcase']
+        chunks: ['showcase'],
+        template: 'src/showcase/index.html'
       }),
       new DefinePlugin({
         PRODUCTION: !devMode,

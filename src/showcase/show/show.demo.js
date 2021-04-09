@@ -1,5 +1,4 @@
-const main = document.createElement('main')
-document.body.appendChild(main)
+const main = document.querySelector('main')
 main.innerHTML = `
 
 <template id="product-template">

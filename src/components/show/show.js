@@ -1,8 +1,9 @@
-import { Component } from 'base/component'
-import { ApiClient, config } from 'common'
 import 'components/button'
 import 'components/card'
+import 'components/icon'
 import 'components/spinner'
+import { Component } from 'base/component'
+import { ApiClient, config } from 'common'
 
 const tag = 'tempos-show'
 export class TemposShowComponent extends Component {
@@ -38,8 +39,9 @@ export class TemposShowComponent extends Component {
         alt="Product picture" slot="media">
       <div class="tempos-show__product-id">${product.id}</div>
       <div class="tempos-show__product-price">\$ ${product.price}</div>
-      <ark-button background="success" color="dark"
-        slot="actions">AGREGAR</ark-button>
+      <ark-button background="success" color="dark" fab slot="actions">
+        <ark-icon type="mat" name="add_shopping_cart" slot="icon"></ark-icon>
+      </ark-button>
     </ark-card>
     `
   }
@@ -69,12 +71,6 @@ query ShowProducts($tenant: String = "demo", $input: FilterInput) {
 `                                                      
 
 const styles = `
-.tempos-show {
-  --primary: blue;
-  --secondary: slategray;
-  --success: green;
-  --danger: red;
-}
 .tempos-show__content {
   display: grid;
   padding: 0.5rem;
