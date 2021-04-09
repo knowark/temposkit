@@ -1,5 +1,7 @@
 import { Component } from 'base/component'
 import { ApiClient, config } from 'common'
+import 'components/button'
+import 'components/card'
 import 'components/spinner'
 
 const tag = 'tempos-show'
@@ -24,8 +26,6 @@ export class TemposShowComponent extends Component {
     } else {
       this.content = /* html */ `
       <ark-spinner></ark-spinner>
-      <div class="${tag}__search"></div>
-      <div class="${tag}__content"></div>
       `
     }
     return super.render()
@@ -33,10 +33,14 @@ export class TemposShowComponent extends Component {
 
   renderProduct (product) {
     return `
-    <div class="tempos-show__product">
-      <div class="tempos-show__product-name">${product.name}</div>
+    <ark-card title="${product.name}" subtitle="Descripción...">
+      <img class="tempos-show__product-picture" src="${product.picture}"
+        alt="Product picture" slot="media">
       <div class="tempos-show__product-id">${product.id}</div>
-    </div>
+      <div class="tempos-show__product-price">\$ ${product.price}</div>
+      <ark-button background="success" color="dark"
+        slot="actions">AGREGAR</ark-button>
+    </ark-card>
     `
   }
 
@@ -57,6 +61,8 @@ query ShowProducts($tenant: String = "demo", $input: FilterInput) {
     products {                                       
       id                                             
       name                                           
+      picture
+      price
     }                                                
   }                                                  
 }                                                    
@@ -65,6 +71,23 @@ query ShowProducts($tenant: String = "demo", $input: FilterInput) {
 const styles = `
 .tempos-show {
   --primary: blue;
+  --secondary: slategray;
+  --success: green;
+  --danger: red;
+}
+.tempos-show__content {
+  display: grid;
+  padding: 0.5rem;
+  align-items: center;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(
+  auto-fit, minmax(min(100%, 200px), 1fr));
+}
+.tempos-show__product-picture {
+  padding: 1rem;
+}
+.tempos-show__product-price {
+  color: var(--danger);
 }
 `
 

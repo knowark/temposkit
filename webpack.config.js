@@ -85,7 +85,7 @@ module.exports = (env, argv) => {
     config.devServer = {
       contentBase: './dist',
       historyApiFallback: true,
-      port: 7890
+      port: 7788
     }
   }
 
