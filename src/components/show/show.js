@@ -63,8 +63,12 @@ query ShowProducts($tenant: String = "demo", $input: FilterInput) {
     products {                                       
       id                                             
       name                                           
-      picture
       price
+      images {
+        name
+        url
+        sequence
+      }
     }                                                
   }                                                  
 }                                                    

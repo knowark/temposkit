@@ -32,12 +32,6 @@ describe('Show', () => {
     expect(component).toBe(component.init())
   })
 
-  it('has a search bar', () => {
-    const search = component.select('.tempos-show__search')
-
-    expect(search).toBeTruthy()
-  })
-
   it('renders products after being fetched', async () => {
     const products = [
       { id: '001', name: 'Orange Juice' },
@@ -66,6 +60,12 @@ describe('Show', () => {
         products {                                       
           id                                             
           name                                           
+          price
+          images {
+            name
+            url
+            sequence
+          }
         }                                                
       }                                                  
     }`.replace(/\s/g, ''))
