@@ -1,7 +1,6 @@
 import 'src/components/show'
 import { mockFetch } from '../../__mocks__/fetchMock.js'
 
-
 describe('Show', () => {
   let container = null
   let component = null
@@ -52,7 +51,7 @@ describe('Show', () => {
 
     await component.update()
 
-    const content = component.select('.tempos-show__content')
+    const content = component.select('[data-content]')
 
     expect(content.children.length).toEqual(products.length)
     expect(expectedQuery.replace(/\s/g, '')).toEqual(`
@@ -74,5 +73,43 @@ describe('Show', () => {
       tenant: 'demo',
       input:{ limit: 12, offset: 0 }
     })
+  })
+
+  it('emits a product-selected event when a product is added', async () => {
+    const products = [
+      { id: '001', name: 'Orange Juice', images: [] },
+      { id: '002', name: 'Chocolate Cake', images: [] },
+      { id: '003', name: 'Special Brownie', images: [
+        {url: 'https://api.tempos.shop/rest/media/photo.jpg' }] }
+    ] 
+
+    let expectedQuery = null
+    let expectedVariables = null
+    const fetch = async (query, variables) => {
+      expectedQuery = query
+      expectedVariables = variables
+      return { showProducts: {products} }
+    }
+
+    component.client.fetch = fetch
+
+    await component.update()
+
+    let eventName = null
+    let eventDetail = null
+
+    component.emit = (name, detail) => {
+      eventName = name
+      eventDetail = detail
+    }
+
+    const productId = '002'
+    const productButton = component.select(
+      `ark-button[data-product-id="${productId}"]`)
+
+    productButton.click()
+
+    expect(eventName).toEqual('product-selected')
+    expect(eventDetail).toBe(products[1])
   })
 })

@@ -32,7 +32,7 @@ export class TemposShowComponent extends Component {
       const products = this.data.showProducts.products
       this.content = /* html */ `
       <div class="${tag}__search"></div>
-      <div class="${tag}__content">
+      <div class="${tag}__content" data-content>
         ${products.map(this.renderProduct).join('')}
       </div>
       `
@@ -53,7 +53,9 @@ export class TemposShowComponent extends Component {
         alt="product picture" slot="media" width="100" height="200">
       <div class="tempos-show__product-id">${product.id}</div>
       <div class="tempos-show__product-price">\$ ${product.price}</div>
-      <ark-button background="success" color="dark" fab slot="actions">
+      <ark-button background="success" color="dark" slot="actions"
+        tempos-show-listen on-click="onProductAddClick" fab
+        data-product-id="${product.id}">
         <ark-icon type="mat" name="add_shopping_cart" slot="icon"></ark-icon>
       </ark-button>
     </ark-card>
@@ -71,6 +73,14 @@ export class TemposShowComponent extends Component {
     this.render()
 
     return super.load()
+  }
+
+  onProductAddClick(event) {
+    event.stopPropagation()
+    const addButton = event.target.closest('ark-button')
+    const product = this.data.showProducts.products.find(
+      item => item.id == addButton.dataset.productId)
+    this.emit('product-selected', product)
   }
 }
 
