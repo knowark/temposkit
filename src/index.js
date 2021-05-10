@@ -1,1 +1,1 @@
-import './components/show'
+import './components'
