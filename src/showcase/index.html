@@ -19,21 +19,56 @@
       --secondary: slategray;
       --success: green;
       --danger: red;
+      --size-sm: 150px;
+      --size-md: 300px;
     }
+
+    html, * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .navbar {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit, minmax(min(100%, var(--size-md)), 1fr));
+      align-items: center;
+
+      background: black;
+      color: white;
+    }
+
+    .navbar__brand {
+      padding: 1rem;
+    }
+
+    .navbar__actions {
+      display: grid;
+      justify-items: center;
+      grid-template-columns: 4fr 1fr;
+
+      background: slategray;
+      padding: 1rem;
+    9
   </style>
 </head>                                                                                                             
                                                                                                                     
 <body>                                                                                                              
-  <h1 style="color: red;">¡Mi Super Tienda En Línea!</h1>
+  <header>
+    <nav class="navbar">
+      <span class="navbar__brand">
+        Temposkit
+      </span>
+      <span class="navbar__actions">
+        <div></div>
+        <tempos-cart></tempos-cart>
+      </span>
+    </nav>
 
-  <template id="product-template">
-    <div>
-      <h1>Product</h1>
-      <span>\${product.name}</span>
-    </div>
-  </template>
+  </header>
 
-  <tempos-show template="#product-template"></tempos-show>
+  <tempos-show></tempos-show>
 
 </body>                                                                                                             
                                                                                                                     
