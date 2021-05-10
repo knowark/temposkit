@@ -56,20 +56,19 @@ module.exports = (env, argv) => {
           ]
         },
         {
-          test: /\.(png|svg|jpg|gif)$/,
-          use: ['file-loader']
+          test: /\.(png|jpg|gif)$/,
+          type: 'asset/resource'
         },
         {
-          test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name: '[name].[ext]',
-                outputPath: 'fonts/'
-              }
-            }
-          ]
+          test: /\.svg/,
+          type: 'asset/inline'
+        },
+        {
+          test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+          type: 'asset/resource',
+          generator: {
+            filename: 'fonts/[name].[ext]',
+          }
         }
       ]
     },

@@ -34,9 +34,10 @@ describe('Show', () => {
 
   it('renders products after being fetched', async () => {
     const products = [
-      { id: '001', name: 'Orange Juice' },
-      { id: '002', name: 'Chocolate Cake' },
-      { id: '003', name: 'Special Brownie' }
+      { id: '001', name: 'Orange Juice', images: [] },
+      { id: '002', name: 'Chocolate Cake', images: [] },
+      { id: '003', name: 'Special Brownie', images: [
+        {url: 'https://api.tempos.shop/rest/media/photo.jpg' }] }
     ] 
 
     let expectedQuery = null
@@ -55,8 +56,8 @@ describe('Show', () => {
 
     expect(content.children.length).toEqual(products.length)
     expect(expectedQuery.replace(/\s/g, '')).toEqual(`
-    query ShowProducts($tenant: String = "demo", $input: FilterInput) {              
-      showProducts(tenant: $tenant, filter: $input) {                       
+    query ShowProducts($tenant: String!, $input: FilterInput) {              
+      showProducts(tenant: $tenant, input: $input) {                       
         products {                                       
           id                                             
           name                                           
@@ -69,6 +70,9 @@ describe('Show', () => {
         }                                                
       }                                                  
     }`.replace(/\s/g, ''))
-    expect(expectedVariables).toEqual({ limit: 12 })
+    expect(expectedVariables).toEqual({
+      tenant: 'demo',
+      input:{ limit: 12, offset: 0 }
+    })
   })
 })

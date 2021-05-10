@@ -8,6 +8,8 @@ main.innerHTML = `
   </div>
 </template>
 
+<h1 style="color: red;">¡Mi Super Tienda En Línea!</h1>
+
 <tempos-show template="#product-template"></tempos-show>
 
 `

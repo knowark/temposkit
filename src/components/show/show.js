@@ -2,17 +2,29 @@ import 'components/button'
 import 'components/card'
 import 'components/icon'
 import 'components/spinner'
+import temposProductImage from 'common/assets/product_placeholder_2.svg'
 import { Component } from 'base/component'
 import { ApiClient, config } from 'common'
 
 const tag = 'tempos-show'
 export class TemposShowComponent extends Component {
   init (context = {}) {
-    const url = config.apiUrl 
     this.binding = 'tempos-show-listen'
-    this.client = new ApiClient({ url })
+    this.global = context.global || window
+    this.client = new ApiClient({ url: config.apiUrl })
+
+    const urlParams = new URLSearchParams(this.global.location.search)
+    this.tenant = (
+      this.tenant || urlParams.get('tenant') || 'demo')
+    this.limit = this.limit || urlParams.get('limit') || 12
+    this.offset = this.offset || urlParams.get('offset') || 0
+
     this.data = {}
     return super.init(context)
+  }
+
+  reflectedProperties() {
+    return ['tenant', 'limit', 'offset']
   }
 
   render () {
@@ -33,10 +45,12 @@ export class TemposShowComponent extends Component {
   }
 
   renderProduct (product) {
+    const [firstImage] = product.images
+    const coverImage = firstImage && firstImage.url || temposProductImage
     return `
     <ark-card title="${product.name}" subtitle="Descripción...">
-      <img class="tempos-show__product-picture" src="${product.picture}"
-        alt="Product picture" slot="media">
+      <img class="tempos-show__product-picture" src="${coverImage}"
+        alt="product picture" slot="media" width="100" height="200">
       <div class="tempos-show__product-id">${product.id}</div>
       <div class="tempos-show__product-price">\$ ${product.price}</div>
       <ark-button background="success" color="dark" fab slot="actions">
@@ -47,7 +61,10 @@ export class TemposShowComponent extends Component {
   }
 
   async load () {
-    const variables = { limit: 12 }
+    const variables = { 
+      tenant: this.tenant, 
+      input: { limit: parseInt(this.limit), offset: parseInt(this.offset) }
+    }
 
     this.data = await this.client.fetch(query, variables)
 
@@ -58,8 +75,8 @@ export class TemposShowComponent extends Component {
 }
 
 const query = `                                        
-query ShowProducts($tenant: String = "demo", $input: FilterInput) {              
-  showProducts(tenant: $tenant, filter: $input) {                       
+query ShowProducts($tenant: String!, $input: FilterInput) {              
+  showProducts(tenant: $tenant, input: $input) {                       
     products {                                       
       id                                             
       name                                           
