@@ -23,4 +23,14 @@ describe('Cart', () => {
     expect(component).toBe(component.init())
   })
 
+  it('handles product selected events', () => {
+    const event = new CustomEvent('product-selected', {detail: {}})
+    
+    expect(component.count).toEqual(0)
+
+    component.onProductSelected(event)
+
+    expect(component.count).toEqual(1)
+  })
+
 })
