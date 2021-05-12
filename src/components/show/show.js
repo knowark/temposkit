@@ -11,7 +11,7 @@ export class TemposShowComponent extends Component {
   init (context = {}) {
     this.binding = 'tempos-show-listen'
     this.global = context.global || window
-    this.client = new ApiClient({ url: config.apiUrl })
+    this.client = context.client || new ApiClient({ url: config.apiUrl })
 
     const urlParams = new URLSearchParams(this.global.location.search)
     this.tenant = (
