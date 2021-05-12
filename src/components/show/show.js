@@ -1,29 +1,29 @@
-import "components/button"
-import "components/card"
-import "components/icon"
-import "components/spinner"
-import temposProductImage from "common/assets/product_placeholder_2.svg"
-import { Component } from "base/component"
-import { ApiClient, config } from "common"
+import 'components/button'
+import 'components/card'
+import 'components/icon'
+import 'components/spinner'
+import temposProductImage from 'common/assets/product_placeholder_2.svg'
+import { Component } from 'base/component'
+import { ApiClient, config } from 'common'
 
-const tag = "tempos-show"
+const tag = 'tempos-show'
 export class TemposShowComponent extends Component {
   init(context = {}) {
-    this.binding = "tempos-show-listen"
+    this.binding = 'tempos-show-listen'
     this.global = context.global || window
     this.client = context.client || new ApiClient({ url: config.apiUrl })
 
     const urlParams = new URLSearchParams(this.global.location.search)
-    this.tenant = this.tenant || urlParams.get("tenant") || "demo"
-    this.limit = this.limit || urlParams.get("limit") || 12
-    this.offset = this.offset || urlParams.get("offset") || 0
+    this.tenant = this.tenant || urlParams.get('tenant') || 'demo'
+    this.limit = this.limit || urlParams.get('limit') || 12
+    this.offset = this.offset || urlParams.get('offset') || 0
 
     this.data = {}
     return super.init(context)
   }
 
   reflectedProperties() {
-    return ["tenant", "limit", "offset"]
+    return ['tenant', 'limit', 'offset']
   }
 
   render() {
@@ -32,7 +32,7 @@ export class TemposShowComponent extends Component {
       this.content = /* html */ `
       <div class="${tag}__search"></div>
       <div class="${tag}__content" data-content>
-        ${products.map(this.renderProduct).join("")}
+        ${products.map(this.renderProduct).join('')}
       </div>
       `
     } else {
@@ -76,11 +76,11 @@ export class TemposShowComponent extends Component {
 
   onProductAddClick(event) {
     event.stopPropagation()
-    const addButton = event.target.closest("ark-button")
+    const addButton = event.target.closest('ark-button')
     const product = this.data.showProducts.products.find(
       (item) => item.id == addButton.dataset.productId
     )
-    this.emit("product-selected", product)
+    this.emit('product-selected', product)
   }
 }
 
