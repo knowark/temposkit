@@ -15,23 +15,24 @@
     rel="stylesheet">                                                                                               
   <style>
     :root {
-      --primary: blue;
+      --primary: #2E294E;
       --secondary: slategray;
-      --success: green;
+      --success: rgb(39, 189, 169); 
       --danger: red;
       --size-sm: 150px;
       --size-md: 300px;
+      --md: 1rem;
     }
 
     html, * {
       padding: 0;
       margin: 0;
       box-sizing: border-box;
+      font-family: "Cairo";
     }
 
     .navbar {
       display: grid;
-      height: 4rem;
       grid-template-columns: repeat(
         auto-fit, minmax(min(100%, var(--size-md)), 1fr));
       align-items: center;
@@ -41,18 +42,25 @@
     }
 
     .navbar__brand {
-      height: 4rem;
+      font-size: 1.5rem;
+      font-weight: bold;
       padding: 1rem;
+      vertical-align:  middle;
     }
 
     .navbar__actions {
       display: grid;
-      height: 4rem;
+      height: 100%;
+      padding: 1rem;
       justify-items: center;
       align-items: center;
       grid-template-columns: 4fr 1fr;
 
       background: slategray;
+    }
+
+    .ark-button[fab]:active{
+      background: var(--danger);
     }
   </style>
 </head>                                                                                                             

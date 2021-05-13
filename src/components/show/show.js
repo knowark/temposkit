@@ -8,14 +8,13 @@ import { ApiClient, config } from 'common'
 
 const tag = 'tempos-show'
 export class TemposShowComponent extends Component {
-  init (context = {}) {
+  init(context = {}) {
     this.binding = 'tempos-show-listen'
     this.global = context.global || window
     this.client = context.client || new ApiClient({ url: config.apiUrl })
 
     const urlParams = new URLSearchParams(this.global.location.search)
-    this.tenant = (
-      this.tenant || urlParams.get('tenant') || 'demo')
+    this.tenant = this.tenant || urlParams.get('tenant') || 'demo'
     this.limit = this.limit || urlParams.get('limit') || 12
     this.offset = this.offset || urlParams.get('offset') || 0
 
@@ -27,7 +26,7 @@ export class TemposShowComponent extends Component {
     return ['tenant', 'limit', 'offset']
   }
 
-  render () {
+  render() {
     if (this.data.showProducts) {
       const products = this.data.showProducts.products
       this.content = /* html */ `
@@ -44,11 +43,11 @@ export class TemposShowComponent extends Component {
     return super.render()
   }
 
-  renderProduct (product) {
+  renderProduct(product) {
     const [firstImage] = product.images
-    const coverImage = firstImage && firstImage.url || temposProductImage
-    return `
-    <ark-card title="${product.name}" subtitle="Descripción...">
+    const coverImage = (firstImage && firstImage.url) || temposProductImage
+    return /* html */ `
+    <ark-card background="primary" round="md" title="${product.name}" subtitle="Descripción...">
       <img class="tempos-show__product-picture" src="${coverImage}"
         alt="product picture" slot="media" width="100" height="200">
       <div class="tempos-show__product-id">${product.id}</div>
@@ -62,10 +61,10 @@ export class TemposShowComponent extends Component {
     `
   }
 
-  async load () {
-    const variables = { 
-      tenant: this.tenant, 
-      input: { limit: parseInt(this.limit), offset: parseInt(this.offset) }
+  async load() {
+    const variables = {
+      tenant: this.tenant,
+      input: { limit: parseInt(this.limit), offset: parseInt(this.offset) },
     }
 
     this.data = await this.client.fetch(query, variables)
@@ -79,7 +78,8 @@ export class TemposShowComponent extends Component {
     event.stopPropagation()
     const addButton = event.target.closest('ark-button')
     const product = this.data.showProducts.products.find(
-      item => item.id == addButton.dataset.productId)
+      (item) => item.id == addButton.dataset.productId
+    )
     this.emit('product-selected', product)
   }
 }
@@ -99,23 +99,37 @@ query ShowProducts($tenant: String!, $input: FilterInput) {
     }                                                
   }                                                  
 }                                                    
-`                                                      
+`
 
-const styles = `
+const styles = /* css */ `
 .tempos-show__content {
   display: grid;
-  padding: 0.5rem;
+  padding: 2rem;
   align-items: center;
-  grid-gap: 1rem;
+  grid-gap: 1.5rem;
   grid-template-columns: repeat(
   auto-fit, minmax(min(100%, 200px), 1fr));
 }
 .tempos-show__product-picture {
+  min-width:100%;
+  background: white;
   padding: 1rem;
 }
 .tempos-show__product-price {
-  color: var(--danger);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
 }
+
+.ark-card{
+  box-shadow: -1px 1px 10px 2px rgba(56,43,255,0.42);
+}
+.ark-card__header,
+.ark-card__actions,
+.ark-card__body{
+  padding: 0.5rem 1.2rem;
+} 
+
 `
 
 Component.define(tag, TemposShowComponent, styles)
