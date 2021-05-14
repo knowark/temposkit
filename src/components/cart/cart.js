@@ -28,9 +28,9 @@ export class TemposCartComponent extends Component {
       <span class="${tag}__counter">${this.count}</span>
     </div>
     <ark-sidebar side="right">
-      <div slot="header">My Menu</div>
+      <div slot="header">Carrito</div>
       <div>Tempos Shopping Cart</div>
-      <div slot="footer">footer</div>
+      <div slot="footer">Tempos</div>
     </ark-sidebar>
     `
     return super.render()
