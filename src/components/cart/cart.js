@@ -13,13 +13,15 @@ export class TemposCartComponent extends Component {
     this.count = 0
 
     this.global.addEventListener(
-      'product-selected', this.onProductSelected.bind(this))
+      'product-selected',
+      this.onProductSelected.bind(this)
+    )
     return super.init(context)
   }
 
   render() {
-    this.content = `
-      <img height="32" src="${temposCartImage}">
+    this.content = /* html */ `
+      <img class="${tag}__image" height="32" src="${temposCartImage}">
       <span class="${tag}__counter">${this.count}</span>
     `
     return super.render()
@@ -32,16 +34,25 @@ export class TemposCartComponent extends Component {
   }
 }
 
-const styles = `
+const styles = /* css */ `
+.${tag}{
+  display:flex;
+  align-items:center;
+}
+.${tag}__image{
+  transform: scale(1.3);
+}
 .${tag}__counter {
-  border-radius: 9px;
-
-  font-size: 1rem;
-  background: green;
-  color: #fff;
-  padding: 0 5px;
-  vertical-align: top;
-  margin-left: -10px; 
+  position: relative;
+  bottom: 9px;
+  left: 5px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  background: red;
+  color: rgb(255, 255, 255);
+  padding: 0.1px 10px;
+  margin-left: -10px;
 
 }
 `
