@@ -33,4 +33,15 @@ describe('Cart', () => {
     expect(component.count).toEqual(1)
   })
 
+  it('opens the cart sidebar on indicator click', () => {
+    const event = new CustomEvent('product-selected', {detail: {}})
+    
+    expect(component.count).toEqual(0)
+
+    component.onProductSelected(event)
+
+    expect(component.count).toEqual(1)
+  })
+
+
 })

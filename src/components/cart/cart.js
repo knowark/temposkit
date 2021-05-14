@@ -19,8 +19,10 @@ export class TemposCartComponent extends Component {
 
   render() {
     this.content = `
+    <div class="${tag}__indicator">
       <img height="32" src="${temposCartImage}">
       <span class="${tag}__counter">${this.count}</span>
+    </div>
     `
     return super.render()
   }
