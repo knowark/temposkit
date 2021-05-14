@@ -35,13 +35,11 @@ describe('Cart', () => {
 
   it('opens the cart sidebar on indicator click', () => {
     const event = new CustomEvent('product-selected', {detail: {}})
-    
-    expect(component.count).toEqual(0)
+    const indicator = component.select('[data-indicator]')
 
-    component.onProductSelected(event)
+    indicator.click()
 
-    expect(component.count).toEqual(1)
+    const sidebar = component.select('ark-sidebar')
+    expect(sidebar.hasAttribute('opened')).toBeTruthy()
   })
-
-
 })
