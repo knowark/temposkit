@@ -42,4 +42,27 @@ describe('Cart', () => {
     const sidebar = component.select('ark-sidebar')
     expect(sidebar.hasAttribute('opened')).toBeTruthy()
   })
+
+  it('includes selected product in its body', () => {
+    let event = new CustomEvent('product-selected', {
+      detail: {id: '001', name: 'Soccer Ball', price: 29}})
+    
+    component.onProductSelected(event)
+
+    let items = component.select('[data-content]').children
+
+    expect(items.length).toEqual(1)
+
+    component.onProductSelected(event)
+
+    expect(items.length).toEqual(1)
+
+    event = new CustomEvent('product-selected', {
+      detail: {id: '002', name: 'Samurai Sword', price: 45}})
+
+    component.onProductSelected(event)
+
+    items = component.select('[data-content]').children
+    expect(items.length).toEqual(2)
+  })
 })

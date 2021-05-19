@@ -1,6 +1,7 @@
 import 'components/button'
 import 'components/card'
 import 'components/icon'
+import 'components/input'
 import 'components/spinner'
 import 'components/sidebar'
 import temposCartImage from 'common/assets/shopping_cart.svg'
@@ -11,12 +12,13 @@ const tag = 'tempos-cart'
 export class TemposCartComponent extends Component {
   init(context = {}) {
     this.global = context.global || window
-    this.count = 0
-
     this.global.addEventListener(
       'product-selected',
-      this.onProductSelected.bind(this)
-    )
+      this.onProductSelected.bind(this))
+
+    this.count = 0
+    this.items = {}
+
     return super.init(context)
   }
 
@@ -29,16 +31,36 @@ export class TemposCartComponent extends Component {
     </div>
     <ark-sidebar side="right">
       <div slot="header">Carrito</div>
-      <div>Tempos Shopping Cart</div>
+      <div data-content>
+        ${Object.values(this.items).map(
+          item => this.renderItem(item)).join('')}
+      </div>
       <div slot="footer">Tempos</div>
     </ark-sidebar>
     `
     return super.render()
   }
 
+  renderItem(item) {
+    return `
+    <ark-card title=${item.name}>
+      <ark-input type="number" min="1" listen
+        on-alter="{{ items[${item.id}].quantity }}"
+        value="${item.quantity}"></ark-input>
+      <div>Price: ${item.price}</div>
+    </ark-card>
+    `
+  }
+
   onProductSelected(event) {
     event.stopPropagation()
-    this.count += 1
+    const item = Object.assign({quantity: '0'},  event.detail)
+    if (!this.items[item.id]) {
+      this.items[item.id] = item
+    }
+    const quantity = parseInt(this.items[item.id].quantity) + 1
+    this.items[item.id].quantity = `${quantity}`
+    this.count = Object.keys(this.items).length
     this.render()
   }
 
