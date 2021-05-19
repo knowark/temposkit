@@ -16,10 +16,13 @@ export class TemposCartComponent extends Component {
       'product-selected',
       this.onProductSelected.bind(this))
 
-    this.count = 0
     this.items = {}
 
     return super.init(context)
+  }
+
+  get count() {
+    return Object.keys(this.items).length
   }
 
   render() {
@@ -35,7 +38,12 @@ export class TemposCartComponent extends Component {
         ${Object.values(this.items).map(
           item => this.renderItem(item)).join('')}
       </div>
-      <div slot="footer">Tempos</div>
+      <div class="${tag}__footer" slot="footer">
+        <ark-button background="success"
+          listen on-click="onOrderClicked" data-order>
+          Ordenar
+        </ark-button>
+      </div>
     </ark-sidebar>
     `
     return super.render()
@@ -60,7 +68,6 @@ export class TemposCartComponent extends Component {
     }
     const quantity = parseInt(this.items[item.id].quantity) + 1
     this.items[item.id].quantity = `${quantity}`
-    this.count = Object.keys(this.items).length
     this.render()
   }
 
@@ -68,12 +75,26 @@ export class TemposCartComponent extends Component {
     event.stopPropagation()
     this.select('ark-sidebar').open()
   }
+
+  onOrderClicked(event) {
+    event.stopPropagation()
+    const order = {
+      id: 'ABC123',
+      items: Object.assign({}, this.items)
+    }
+    this.emit('order-created', order)
+    this.items = {}
+
+    this.render()
+
+    this.global.alert('Tu orden es:\n' + JSON.stringify(order))
+  }
 }
 
 const styles = /* css */ `
 .${tag} {
-  display:flex;
-  align-items:center;
+  display: grid;
+  align-items: center;
 }
 .${tag}__image {
   transform: scale(1.3);
@@ -89,6 +110,10 @@ const styles = /* css */ `
   color: rgb(255, 255, 255);
   padding: 0.1px 10px;
   margin-left: -10px;
+}
+.${tag}__footer {
+  display: grid;
+  align-items: center;
 }
 `
 

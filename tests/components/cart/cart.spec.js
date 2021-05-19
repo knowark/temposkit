@@ -1,6 +1,5 @@
 import 'src/components/cart'
 
-
 describe('Cart', () => {
   let container = null
   let component = null
@@ -64,5 +63,33 @@ describe('Cart', () => {
 
     items = component.select('[data-content]').children
     expect(items.length).toEqual(2)
+  })
+
+  it('emits an order-created event on order button click', () => {
+    const items = {
+      '001': {id: '001', name: 'Ball', quantity: '3', price: 29},
+      '002': {id: '002', name: 'Shirt', quantity: '1', price: 9}
+    }
+
+    component.items = Object.assign({}, items)
+    component.global = { alert: (message) => message }
+
+    const orderButton = component.select('[data-order]')
+
+    let eventName = null
+    let eventDetail = null
+
+    component.emit = (name, detail) => {
+      eventName = name
+      eventDetail = detail
+    }
+
+    const event = new MouseEvent('click')
+    component.onOrderClicked(event)
+
+    expect(component.items).toEqual({})
+    expect(eventName).toEqual('order-created')
+    expect(eventDetail.id).toBeTruthy()
+    expect(eventDetail.items).toEqual(items)
   })
 })
