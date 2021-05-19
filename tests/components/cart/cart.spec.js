@@ -9,6 +9,14 @@ describe('Cart', () => {
     document.body.append(container)
     container.innerHTML = `<tempos-cart></tempos-cart>`
     component = container.querySelector('tempos-cart')
+    const global ={ 
+      addEventListener: () => {},
+      localStorage: {
+        setItem: () => null,
+        getItem: () => null
+      }
+    }
+    component.init({global})
   })
 
   afterEach(() => {

@@ -15,8 +15,10 @@ export class TemposCartComponent extends Component {
     this.global.addEventListener(
       'product-selected',
       this.onProductSelected.bind(this))
+    this.storage = this.global.localStorage
 
-    this.items = {}
+    const items = this.storage.getItem('items') ||  '{}'
+    this.items = JSON.parse(items) 
 
     return super.init(context)
   }
@@ -68,6 +70,7 @@ export class TemposCartComponent extends Component {
     }
     const quantity = parseInt(this.items[item.id].quantity) + 1
     this.items[item.id].quantity = `${quantity}`
+    this.storage.setItem('items', JSON.stringify(this.items))
     this.render()
   }
 
@@ -84,6 +87,7 @@ export class TemposCartComponent extends Component {
     }
     this.emit('order-created', order)
     this.items = {}
+    this.storage.setItem('items', JSON.stringify(this.items))
 
     this.render()
 
