@@ -50,6 +50,24 @@ describe('Cart', () => {
     expect(sidebar.hasAttribute('opened')).toBeTruthy()
   })
 
+  it('sets item quantities on input alterations', () => {
+    component.items = {
+      '001': {id: '001', name: 'Ball', quantity: '3', price: 29},
+      '002': {id: '002', name: 'Shirt', quantity: '1', price: 9}
+    }
+    component.render()
+    const firstItemInput = component.select(
+      '[data-product-id="001"] ark-input') 
+
+    const event = new CustomEvent('altered', {detail: 7})
+    Object.defineProperty(event, 'target',
+      {writable: false, value: firstItemInput});
+
+    component.onItemAltered(event)
+
+    expect(component.items['001'].quantity).toEqual(7)
+  })
+
   it('includes selected product in its body', () => {
     let event = new CustomEvent('product-selected', {
       detail: {id: '001', name: 'Soccer Ball', price: 29}})
@@ -99,5 +117,26 @@ describe('Cart', () => {
     expect(eventName).toEqual('order-created')
     expect(eventDetail.id).toBeTruthy()
     expect(eventDetail.items).toEqual(items)
+  })
+
+  it('deletes its selected items', () => {
+    component.items = {
+      '001': {id: '001', name: 'Ball', quantity: '3', price: 29},
+      '002': {id: '002', name: 'Shirt', quantity: '1', price: 9}
+    }
+
+    component.render()
+    expect(component.select('[data-content]').children.length).toEqual(2)
+
+    const firstItemDeleteButton = component.select(
+      '[data-product-id="001"] ark-button') 
+    const event = new MouseEvent('click')
+    Object.defineProperty(event, 'target',
+      {writable: false, value: firstItemDeleteButton});
+
+    component.onDeleteClicked(event)
+
+    expect(component.select('[data-content]').children.length).toEqual(1)
+    expect(Object.keys(component.items)).toEqual(['002'])
   })
 })

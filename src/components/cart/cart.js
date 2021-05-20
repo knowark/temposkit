@@ -13,8 +13,7 @@ export class TemposCartComponent extends Component {
   init(context = {}) {
     this.global = context.global || window
     this.global.addEventListener(
-      'product-selected',
-      this.onProductSelected.bind(this))
+      'product-selected', this.onProductSelected.bind(this))
     this.storage = this.global.localStorage
 
     const items = this.storage.getItem('items') ||  '{}'
@@ -53,13 +52,22 @@ export class TemposCartComponent extends Component {
 
   renderItem(item) {
     return `
-    <ark-card title=${item.name}>
-      <ark-input type="number" min="1" listen
-        on-alter="{{ items[${item.id}].quantity }}"
+    <ark-card title=${item.name} data-product-id="${item.id}">
+      <ark-input type="number" min="1" listen on-alter="onItemAltered"
         value="${item.quantity}"></ark-input>
       <div>Price: ${item.price}</div>
+      <ark-button background="danger" listen
+        on-click="onDeleteClicked">X</ark-button>
     </ark-card>
     `
+  }
+
+  onItemAltered(event) {
+    event.stopPropagation()
+    const productElement = event.target.closest('[data-product-id]')
+    const productId = String(productElement.dataset.productId)
+    this.items[productId].quantity = event.detail
+    this.persist()
   }
 
   onProductSelected(event) {
@@ -70,8 +78,7 @@ export class TemposCartComponent extends Component {
     }
     const quantity = parseInt(this.items[item.id].quantity) + 1
     this.items[item.id].quantity = `${quantity}`
-    this.storage.setItem('items', JSON.stringify(this.items))
-    this.render()
+    this.persist().render()
   }
 
   onIndicatorClicked(event) {
@@ -87,11 +94,22 @@ export class TemposCartComponent extends Component {
     }
     this.emit('order-created', order)
     this.items = {}
-    this.storage.setItem('items', JSON.stringify(this.items))
-
-    this.render()
+    this.persist().render()
 
     this.global.alert('Tu orden es:\n' + JSON.stringify(order))
+  }
+
+  onDeleteClicked(event) {
+    event.stopPropagation()
+    const productElement = event.target.closest('[data-product-id]')
+    const productId = productElement.dataset.productId
+    delete this.items[productId]
+    this.persist().render().select('ark-sidebar').open()
+  }
+
+  persist() {
+    this.storage.setItem('items', JSON.stringify(this.items))
+    return this
   }
 }
 
