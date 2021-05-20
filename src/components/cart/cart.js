@@ -172,6 +172,7 @@ const styles = /* css */ `
 }
 .ark-sidebar__body [data-content]{
   width:100%;
+  height:100%;
 }
 .product-card{
   display:flex;
