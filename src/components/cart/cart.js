@@ -135,6 +135,8 @@ export class TemposCartComponent extends Component {
 
 const styles = /* css */ `
 .${tag} {
+  cursor: pointer;
+  user-select:none;
   display: grid;
   align-items: center;
 }
