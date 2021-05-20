@@ -178,7 +178,7 @@ const styles = /* css */ `
   align-items: center;
   justify-content:space-between;
   gap:2rem;
-  padding:0.5rem;
+  padding:0.1rem 0.5rem;
   border-top: 2px solid #d8d8d8;
   border-bottom: 2px solid #d8d8d8;
 }
@@ -188,6 +188,7 @@ const styles = /* css */ `
   background-repeat:no-repeat;
   background-size: contain;
   background-position:center;
+  margin-left:1rem;
 }
 
 .product-card__title{
@@ -207,11 +208,13 @@ const styles = /* css */ `
 .product-card__info .ark-input__text{
   font-weight:700;
   font-size: 0.9rem;
+  color: #352e30;
 }
 .product-card__price{
   font-size: 0.9rem;
   font-weight: 700;
   margin-top:0.5rem;
+  color: #352e30;
 }
 .product-card__price span{
   font-weight: 400;
