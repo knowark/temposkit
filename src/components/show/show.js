@@ -47,7 +47,8 @@ export class TemposShowComponent extends Component {
     const [firstImage] = product.images
     const coverImage = (firstImage && firstImage.url) || temposProductImage
     return /* html */ `
-    <ark-card background="primary" round="md" title="${product.name}" subtitle="Descripción...">
+    <ark-card background="primary" round="md"
+      title="${product.name}" subtitle="Descripción...">
       <img class="tempos-show__product-picture" src="${coverImage}"
         alt="product picture" slot="media" width="100" height="200">
       <div class="tempos-show__product-id">${product.id}</div>
