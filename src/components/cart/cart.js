@@ -26,7 +26,8 @@ export class TemposCartComponent extends Component {
   }
 
   get count() {
-    return Object.keys(this.items).length
+    return Object.values(this.items).reduce(
+      (accumulator, item) => accumulator + item.quantity, 0)
   }
 
   render() {
@@ -34,7 +35,7 @@ export class TemposCartComponent extends Component {
     <div class="${tag}__indicator" data-indicator
       listen on-click="onIndicatorClicked">
       <img class="${tag}__image" height="32" src="${temposCartImage}">
-      <span class="${tag}__counter">${this.count}</span>
+      <span data-counter class="${tag}__counter">${this.count}</span>
     </div>
     <ark-sidebar side="right">
       <div slot="header">Carrito</div>
@@ -54,27 +55,18 @@ export class TemposCartComponent extends Component {
     return super.render()
   }
 
-  // renderItem(item) {
-  //   return /* html*/ `
-  //   <ark-card title=${item.name} data-product-id="${item.id}">
-  //     <ark-input type="number" min="1" listen on-alter="onItemAltered"
-  //       value="${item.quantity}"></ark-input>
-  //     <div>Price: ${item.price}</div>
-  //     <ark-button background="danger" listen
-  //       on-click="onDeleteClicked">X</ark-button>
-  //   </ark-card>
-  //   `
-  // }
-
   renderItem(item) {
     return /* html*/ `
       <div class="product-card" data-product-id="${item.id}">
-        <div class="product-card__image" style="background-image: url(${temposProductImage})"></div>
+        <div class="product-card__image"
+          style="background-image: url(${temposProductImage})"></div>
         <div class="product-card__info">
         <h1 class="product-card__title">${item.name}</h1>
-          <ark-input inline label="Quantity:" type="number" min="1" listen on-alter="onItemAltered"
+        <ark-input inline label="Quantity:" type="number"
+          min="1" listen on-alter="onItemAltered"
           value="${item.quantity}"></ark-input>
-          <div class="product-card__price"> Price: <span>${item.price}$<span></div>
+        <div class="product-card__price">
+          Price: <span>${item.price}$<span></div>
         </div>
          <ark-button background="danger" listen
        on-click="onDeleteClicked">×</ark-button>
@@ -86,18 +78,18 @@ export class TemposCartComponent extends Component {
     event.stopPropagation()
     const productElement = event.target.closest('[data-product-id]')
     const productId = String(productElement.dataset.productId)
-    this.items[productId].quantity = event.detail
-    this.persist()
+    this.items[productId].quantity = parseInt(event.detail)
+    this.persist().select('[data-counter]').textContent = this.count
   }
 
   onProductSelected(event) {
     event.stopPropagation()
-    const item = Object.assign({ quantity: '0' }, event.detail)
+    const item = Object.assign({ quantity: 0 }, event.detail)
     if (!this.items[item.id]) {
       this.items[item.id] = item
     }
-    const quantity = parseInt(this.items[item.id].quantity) + 1
-    this.items[item.id].quantity = `${quantity}`
+    const quantity = this.items[item.id].quantity + 1
+    this.items[item.id].quantity = quantity
     this.persist().render()
   }
 
@@ -159,22 +151,22 @@ const styles = /* css */ `
   display: grid;
   align-items: center;
 }
-.ark-sidebar__menu{
+.ark-sidebar__menu {
   min-width:300px;
   width: 30%;
 }
-.ark-sidebar__body{
+.ark-sidebar__body {
   display:flex;
   justify-content:center;
   align-items:center;
   width:100%;
   padding: 0;
 }
-.ark-sidebar__body [data-content]{
+.ark-sidebar__body [data-content] {
   width:100%;
   height:100%;
 }
-.product-card{
+.product-card {
   display:flex;
   align-items: center;
   justify-content:space-between;
@@ -183,7 +175,7 @@ const styles = /* css */ `
   border-top: 2px solid #d8d8d8;
   border-bottom: 2px solid #d8d8d8;
 }
-.product-card__image{
+.product-card__image {
   width:70px;
   height:70px;
   background-repeat:no-repeat;
@@ -191,44 +183,42 @@ const styles = /* css */ `
   background-position:center;
   margin-left:1rem;
 }
-
-.product-card__title{
+.product-card__title {
   font-size: 1.3rem;
 }
-
-.product-card__info .ark-input{
-  margin:0;
-  padding:0;
+.product-card__info .ark-input {
+  margin: 0;
+  padding: 0;
 }
-.product-card__info .ark-input input{
-  padding:0rem;
-  box-shadow:none;
+.product-card__info .ark-input input {
+  padding: 0rem;
+  box-shadow: none;
   width: 3rem;
   text-align: center;
 }
-.product-card__info .ark-input__text{
+.product-card__info .ark-input__text {
   font-weight:700;
   font-size: 0.9rem;
   color: #352e30;
 }
-.product-card__price{
+.product-card__price {
   font-size: 0.9rem;
   font-weight: 700;
   margin-top:0.5rem;
   color: #352e30;
 }
-.product-card__price span{
+.product-card__price {
   font-weight: 400;
   margin-left:2.5rem;
 }
-.product-card .ark-button{
+.product-card .ark-button {
   align-self: baseline;
   width: 30px;
   height: 30px;
   border-radius: 15px;
   font-size: 1.5rem;
 }
-.product-card .ark-button__body{
+.product-card .ark-button__body {
   position:relative;
   left:1px;
   bottom:1px;
