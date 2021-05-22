@@ -121,7 +121,6 @@ const styles = /* css */ `
   font-weight: 700;
   color: white;
 }
-
 .ark-card{
   box-shadow: -1px 1px 10px 2px rgba(56,43,255,0.42);
 }
@@ -130,7 +129,6 @@ const styles = /* css */ `
 .ark-card__body{
   padding: 0.5rem 1.2rem;
 } 
-
 `
 
 Component.define(tag, TemposShowComponent, styles)

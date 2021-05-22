@@ -15,10 +15,9 @@ export class TemposCartComponent extends Component {
     this.global = context.global || window
     this.global.addEventListener(
       'product-selected',
-      this.onProductSelected.bind(this)
-    )
-    this.storage = this.global.localStorage
+      this.onProductSelected.bind(this))
 
+    this.storage = this.global.localStorage
     const items = this.storage.getItem('items') || '{}'
     this.items = JSON.parse(items)
 
@@ -100,15 +99,8 @@ export class TemposCartComponent extends Component {
 
   onOrderClicked(event) {
     event.stopPropagation()
-    const order = {
-      id: 'ABC123',
-      items: Object.assign({}, this.items),
-    }
-    this.emit('order-created', order)
-    this.items = {}
-    this.persist().render()
-
-    this.global.alert('Tu orden es:\n' + JSON.stringify(order))
+    this.emit('checkout', Object.assign({}, this.items))
+    this.select('ark-sidebar').close()
   }
 
   onDeleteClicked(event) {
