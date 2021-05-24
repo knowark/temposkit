@@ -26,7 +26,9 @@ export class TemposCartComponent extends Component {
 
   get count() {
     return Object.values(this.items).reduce(
-      (accumulator, item) => accumulator + item.quantity, 0)
+      (accumulator, item) => accumulator + item.quantity,
+      0
+    )
   }
 
   render() {
@@ -119,10 +121,11 @@ export class TemposCartComponent extends Component {
 
 const styles = /* css */ `
 .${tag} {
-  cursor: pointer;
-  user-select:none;
   display: grid;
+  cursor: pointer;
+  user-select: none;
   align-items: center;
+  width: 4rem;
 }
 .${tag}__image {
   transform: scale(1.3);
@@ -133,7 +136,6 @@ const styles = /* css */ `
   left: 5px;
   border-radius: 16px;
   font-size: 0.9rem;
-  font-weight: bold;
   background: red;
   color: rgb(255, 255, 255);
   padding: 0.1px 10px;
@@ -144,39 +146,39 @@ const styles = /* css */ `
   align-items: center;
 }
 .ark-sidebar__menu {
-  min-width:300px;
-  width: 30%;
+  min-width: 300px;
+  width: 25%;
 }
 .ark-sidebar__body {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  width:100%;
+  width:  100%;
   padding: 0;
 }
 .ark-sidebar__body [data-content] {
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
 }
 .product-card {
-  display:flex;
-  align-items: center;
-  justify-content:space-between;
-  gap:2rem;
-  padding:0.1rem 0.5rem;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
   border-top: 2px solid #d8d8d8;
   border-bottom: 2px solid #d8d8d8;
 }
 .product-card__image {
-  width:70px;
-  height:70px;
-  background-repeat:no-repeat;
+  width: 70px;
+  height: 70px;
+  background-repeat: no-repeat;
   background-size: contain;
-  background-position:center;
-  margin-left:1rem;
+  background-position: center;
+  margin-left: 1rem;
 }
 .product-card__title {
   font-size: 1.3rem;
+}
+.product-card__info{
+  display: grid;
+  grid-column: span 2;
 }
 .product-card__info .ark-input {
   margin: 0;
@@ -188,32 +190,34 @@ const styles = /* css */ `
   width: 3rem;
   text-align: center;
 }
-.product-card__info .ark-input__text {
-  font-weight:700;
+.ark-input__text {
+  font-weight: 700;
   font-size: 0.9rem;
   color: #352e30;
 }
 .product-card__price {
   font-size: 0.9rem;
   font-weight: 700;
-  margin-top:0.5rem;
+  margin-top: 0.5rem;
   color: #352e30;
 }
 .product-card__price {
   font-weight: 400;
-  margin-left:2.5rem;
+  margin-left: 2.5rem;
 }
 .product-card .ark-button {
-  align-self: baseline;
+  position: absolute;
+  top: 5px;
+  right: 5px;
   width: 30px;
   height: 30px;
   border-radius: 15px;
   font-size: 1.5rem;
 }
 .product-card .ark-button__body {
-  position:relative;
-  left:1px;
-  bottom:1px;
+  position: relative;
+  left: 1px;
+  bottom: 1px;
 }
 `
 
