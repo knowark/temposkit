@@ -26,9 +26,7 @@ export class TemposCartComponent extends Component {
 
   get count() {
     return Object.values(this.items).reduce(
-      (accumulator, item) => accumulator + item.quantity,
-      0
-    )
+      (accumulator, item) => accumulator + item.quantity, 0)
   }
 
   render() {
@@ -58,19 +56,19 @@ export class TemposCartComponent extends Component {
 
   renderItem(item) {
     return /* html*/ `
-      <div class="product-card" data-product-id="${item.id}">
-        <div class="product-card__image"
+      <div class="${tag}__product" data-product-id="${item.id}">
+        <div class="${tag}__product-image"
           style="background-image: url(${temposProductImage})"></div>
-        <div class="product-card__info">
-        <h1 class="product-card__title">${item.name}</h1>
+        <div class="${tag}__product-info">
+        <h1 class="${tag}__product-title">${item.name}</h1>
         <ark-input inline label="Quantity:" type="number"
           min="1" listen on-alter="onItemAltered"
           value="${item.quantity}"></ark-input>
-        <div class="product-card__price">
+        <div class="${tag}__product-price">
           Price: <span>${item.price}$<span></div>
         </div>
-         <ark-button background="danger" listen
-       on-click="onDeleteClicked">×</ark-button>
+        <ark-button background="danger" listen
+          on-click="onDeleteClicked">×</ark-button>
       </div>
     `
   }
@@ -157,7 +155,7 @@ const styles = /* css */ `
   width: 100%;
   height: 100%;
 }
-.product-card {
+.${tag}__product {
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -165,7 +163,7 @@ const styles = /* css */ `
   border-top: 2px solid #d8d8d8;
   border-bottom: 2px solid #d8d8d8;
 }
-.product-card__image {
+.${tag}__product-image {
   width: 70px;
   height: 70px;
   background-repeat: no-repeat;
@@ -173,18 +171,18 @@ const styles = /* css */ `
   background-position: center;
   margin-left: 1rem;
 }
-.product-card__title {
-  font-size: 1.3rem;
-}
-.product-card__info{
+.${tag}__product-info {
   display: grid;
   grid-column: span 2;
 }
-.product-card__info .ark-input {
+.${tag}__product-title {
+  font-size: 1.3rem;
+}
+.${tag}__product-info .ark-input {
   margin: 0;
   padding: 0;
 }
-.product-card__info .ark-input input {
+.${tag}__product-info .ark-input input {
   padding: 0rem;
   box-shadow: none;
   width: 3rem;
@@ -195,17 +193,17 @@ const styles = /* css */ `
   font-size: 0.9rem;
   color: #352e30;
 }
-.product-card__price {
+.${tag}__product-price {
   font-size: 0.9rem;
   font-weight: 700;
   margin-top: 0.5rem;
   color: #352e30;
 }
-.product-card__price {
+.${tag}__product-price {
   font-weight: 400;
   margin-left: 2.5rem;
 }
-.product-card .ark-button {
+.${tag}__product .ark-button {
   position: absolute;
   top: 5px;
   right: 5px;
@@ -214,7 +212,7 @@ const styles = /* css */ `
   border-radius: 15px;
   font-size: 1.5rem;
 }
-.product-card .ark-button__body {
+.${tag}__product .ark-button__body {
   position: relative;
   left: 1px;
   bottom: 1px;

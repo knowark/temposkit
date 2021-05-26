@@ -22,14 +22,14 @@ describe('Checkout', () => {
     expect(component).toBe(component.init())
   })
 
-  it('shows on checkout events', () => {
+  it('shows on checkout events', async () => {
     const event = new CustomEvent('checkout', {detail: {}})
     
     const modal = component.select('ark-modal')
 
     expect(modal.hasAttribute('show')).toBeFalsy()
 
-    component.onCheckout(event)
+    await component.onCheckout(event)
 
     expect(modal.hasAttribute('show')).toBeTruthy()
   })

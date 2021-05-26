@@ -3,6 +3,7 @@ import 'components/modal'
 import 'components/splitview'
 import { Component } from 'base/component'
 import './parts/checkout.form'
+import './parts/checkout.summary'
 
 const tag = 'tempos-checkout'
 export class TemposCheckoutComponent extends Component {
@@ -29,7 +30,10 @@ export class TemposCheckoutComponent extends Component {
           <tempos-checkout-form tenant="${this.tenant}">
           </tempos-checkout-form>
         </ark-splitview-master>
-        <ark-splitview-detail>DETAIL</ark-splitview-detail>
+        <ark-splitview-detail>
+          <tempos-checkout-summary>
+          </tempos-checkout-summary>
+        </ark-splitview-detail>
       </ark-splitview>
       <ark-button slot="action" color="light"
         close>Cerrar</ark-button>
@@ -38,9 +42,10 @@ export class TemposCheckoutComponent extends Component {
     return super.render()
   }
 
-  onCheckout(event) {
+  async onCheckout(event) {
     event.stopPropagation()
     this.select('ark-modal').open()
+    await this.select('tempos-checkout-summary').update({})
   }
 
 }
