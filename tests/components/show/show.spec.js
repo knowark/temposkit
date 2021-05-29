@@ -5,7 +5,9 @@ describe('Show', () => {
   let container = null
   let component = null
 
-  global.fetch = jest.fn(mockFetch({data: {}}))
+  global.fetch = jest.fn(mockFetch({data: {
+    showProducts: { products: [] }
+  }}))
 
   beforeEach(() => {
     global.fetch.mockClear()
@@ -26,53 +28,25 @@ describe('Show', () => {
     expect(component).toBe(component.init())
   })
 
-  it('can be instantiated', () => {
-    expect(component).toBeTruthy()
-    expect(component).toBe(component.init())
-  })
-
   it('renders products after being fetched', async () => {
     const products = [
       { id: '001', name: 'Orange Juice', images: [] },
       { id: '002', name: 'Chocolate Cake', images: [] },
       { id: '003', name: 'Special Brownie', images: [
-        {url: 'https://api.tempos.shop/rest/media/photo.jpg' }] }
+        { url: 'https://api.tempos.shop/rest/media/photo.jpg' }] }
     ] 
 
-    let expectedQuery = null
-    let expectedVariables = null
-    const fetch = async (query, variables) => {
-      expectedQuery = query
-      expectedVariables = variables
-      return { showProducts: {products} }
+    const mockShowInformer = {
+      showProducts: async (tenant, filterInput) => products
     }
 
-    component.client.fetch = fetch
+    component.showInformer = mockShowInformer
 
     await component.update()
 
     const content = component.select('[data-content]')
 
     expect(content.children.length).toEqual(products.length)
-    expect(expectedQuery.replace(/\s/g, '')).toEqual(`
-    query ShowProducts($tenant: String!, $input: FilterInput) {              
-      showProducts(tenant: $tenant, input: $input) {                       
-        products {                                       
-          id                                             
-          name                                           
-          price
-          images {
-            name
-            url
-            sequence
-          }
-        }                                                
-      }                                                  
-    }`.replace(/\s/g, ''))
-    expect(expectedVariables).toEqual({
-      tenant: 'demo',
-      input:{ limit: 12, offset: 0 }
-    })
   })
 
   it('emits a product-selected event when a product is added', async () => {
@@ -83,15 +57,11 @@ describe('Show', () => {
         {url: 'https://api.tempos.shop/rest/media/photo.jpg' }] }
     ] 
 
-    let expectedQuery = null
-    let expectedVariables = null
-    const fetch = async (query, variables) => {
-      expectedQuery = query
-      expectedVariables = variables
-      return { showProducts: {products} }
+    const mockShowInformer = {
+      showProducts: async (tenant, filterInput) => products
     }
 
-    component.client.fetch = fetch
+    component.showInformer = mockShowInformer
 
     await component.update()
 

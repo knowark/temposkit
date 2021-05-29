@@ -5,8 +5,8 @@ import { ContactManager } from '../managers/contact.manager'
 
 const tag = 'tempos-checkout-form'
 export class TemposCheckoutFormComponent extends Component {
-  init(context) {
-    this.contactManager = this.contactManager || new ContactManager(context)
+  init(context = {}) {
+    this.contactManager = context.contactManager || new ContactManager(context)
     this.tenant = this.tenant || 'demo'
     this.contact = {}
     return super.init()

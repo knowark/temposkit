@@ -24,6 +24,11 @@ describe('ContactManager', () => {
     expect(manager).toBeTruthy()
   })
 
+  it('can be instantiated without arguments', () => {
+    const manager = new ContactManager()
+    expect(manager).toBeTruthy()
+  })
+
   it('ensures a contact record given its details', async () => {
     const client = manager.client
     const contactInput = {email: 'jdoe@example.com'}

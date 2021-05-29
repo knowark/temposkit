@@ -1,6 +1,8 @@
+import { ApiClient, config } from 'common'
+
 export class ContactManager {
-  constructor(context) {
-    this.client = context.client
+  constructor(context = {}) {
+    this.client = context.client || new ApiClient({ url: config.apiUrl })
     this.ensureQuery = `
     mutation EnsureContact($tenant: String!, $input: ContactInput) {
       ensureContact(tenant: $tenant, input: $input) {
