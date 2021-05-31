@@ -39,7 +39,8 @@ export class TemposCheckoutFormComponent extends Component {
   async onSubmitClicked(event) {
     event.stopPropagation()
     if (!this.select('form').reportValidity()) return
-    const contact = await this.contactManager.ensureContact(this.contact)
+    const contact = await this.contactManager.ensureContact(
+      this.tenant, this.contact)
   }
 }
 

@@ -10,7 +10,7 @@ describe('ContactManager', () => {
       async fetch(query, variables) {
         this.query = query
         this.variables = variables
-        return Object.assign({id: '007'}, variables)
+        return {} 
       }
     }
     manager = new ContactManager({ client: new MockClient() })
@@ -31,14 +31,15 @@ describe('ContactManager', () => {
 
   it('ensures a contact record given its details', async () => {
     const client = manager.client
-    const contactInput = {email: 'jdoe@example.com'}
+    const tenant = 'knowark'
+    const contactInput = { email: 'jdoe@example.com' }
 
-    const contact = await manager.ensureContact(contactInput)
+    const contact = await manager.ensureContact(tenant, contactInput)
 
-    expect(contact).toEqual({ id: '007', email: 'jdoe@example.com' })
-    expect(client.variables).toEqual({ email: 'jdoe@example.com' })
+    expect(client.variables).toEqual(
+      { tenant: 'knowark', input: { email: 'jdoe@example.com' }})
     expect(client.query.replace(/\s/g, '')).toEqual(`
-    mutation EnsureContact($tenant: String!, $input: ContactInput) {              
+    mutation EnsureContact($tenant: String!, $input: ContactInput!) {              
       ensureContact(tenant: $tenant, input: $input) {                       
         id
         email
