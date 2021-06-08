@@ -15,7 +15,8 @@ export class TemposCartComponent extends Component {
     this.global = context.global || window
     this.global.addEventListener(
       'product-selected',
-      this.onProductSelected.bind(this))
+      this.onProductSelected.bind(this)
+    )
 
     this.storage = this.global.localStorage
     const items = this.storage.getItem('items') || '{}'
@@ -26,7 +27,9 @@ export class TemposCartComponent extends Component {
 
   get count() {
     return Object.values(this.items).reduce(
-      (accumulator, item) => accumulator + item.quantity, 0)
+      (accumulator, item) => accumulator + item.quantity,
+      0
+    )
   }
 
   render() {
@@ -135,7 +138,7 @@ const styles = /* css */ `
   border-radius: 16px;
   font-size: 0.9rem;
   background: red;
-  color: rgb(255, 255, 255);
+  color: white;
   padding: 0.1px 10px;
   margin-left: -10px;
 }
@@ -151,16 +154,11 @@ const styles = /* css */ `
   width:  100%;
   padding: 0;
 }
-.ark-sidebar__body [data-content] {
-  width: 100%;
-  height: 100%;
-}
 .${tag}__product {
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   place-items: center;
-  border-top: 2px solid #d8d8d8;
   border-bottom: 2px solid #d8d8d8;
 }
 .${tag}__product-image {
@@ -178,11 +176,11 @@ const styles = /* css */ `
 .${tag}__product-title {
   font-size: 1.3rem;
 }
-.${tag}__product-info .ark-input {
+.ark-input {
   margin: 0;
   padding: 0;
 }
-.${tag}__product-info .ark-input input {
+.ark-input__input {
   padding: 0rem;
   box-shadow: none;
   width: 3rem;
@@ -195,13 +193,9 @@ const styles = /* css */ `
 }
 .${tag}__product-price {
   font-size: 0.9rem;
-  font-weight: 700;
+  font-weight: 400;
   margin-top: 0.5rem;
   color: #352e30;
-}
-.${tag}__product-price {
-  font-weight: 400;
-  margin-left: 2.5rem;
 }
 .${tag}__product .ark-button {
   position: absolute;
@@ -211,6 +205,7 @@ const styles = /* css */ `
   height: 30px;
   border-radius: 15px;
   font-size: 1.5rem;
+  transform: scale(0.8);
 }
 .${tag}__product .ark-button__body {
   position: relative;
