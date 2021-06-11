@@ -198,7 +198,6 @@ const styles = /* css */ `
   color: #352e30;
 }
 .ark-button[fab]{
-  position: absolute;
   top: -2px;
   right: 5px;
   font-size: 2rem;
