@@ -70,7 +70,7 @@ export class TemposCartComponent extends Component {
         <div class="${tag}__product-price">
           Price: <span>${item.price}$<span></div>
         </div>
-        <ark-button background="danger" listen
+        <ark-button fab horizontal="end" vertical="start" background="danger" listen
           on-click="onDeleteClicked">×</ark-button>
       </div>
     `
@@ -197,17 +197,13 @@ const styles = /* css */ `
   margin-top: 0.5rem;
   color: #352e30;
 }
-.${tag}__product .ark-button {
-  position: absolute;
-  top: 5px;
+.ark-button[fab]{
+  top: -2px;
   right: 5px;
-  width: 30px;
-  height: 30px;
-  border-radius: 15px;
-  font-size: 1.5rem;
-  transform: scale(0.8);
+  font-size: 2rem;
+  transform: scale(0.6);
 }
-.${tag}__product .ark-button__body {
+[fab] .ark-button__body {
   position: relative;
   left: 1px;
   bottom: 1px;
