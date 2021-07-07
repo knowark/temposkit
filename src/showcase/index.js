@@ -19,7 +19,7 @@ async function main() {
   }
 
   const temposShow = document.querySelector('tempos-show')
-  //await temposShow.update({ client })
+  await temposShow.update({ client })
 }
 
 setTimeout(main, 1000)

@@ -31,20 +31,21 @@ describe('ContactManager', () => {
 
   it('ensures a contact record given its details', async () => {
     const client = manager.client
-    const tenant = 'knowark'
-    const contactInput = { email: 'jdoe@example.com' }
+    const input = { tenant: 'knowark', email: 'jdoe@example.com' }
 
-    const contact = await manager.ensureContact(tenant, contactInput)
+    const contact = await manager.ensureContact(input)
 
     expect(client.variables).toEqual(
-      { tenant: 'knowark', input: { email: 'jdoe@example.com' }})
+      { input: { tenant: 'knowark', email: 'jdoe@example.com' }})
     expect(client.query.replace(/\s/g, '')).toEqual(`
-    mutation EnsureContact($tenant: String!, $input: ContactInput!) {              
-      ensureContact(tenant: $tenant, input: $input) {                       
-        id
-        email
-        name
-        surname
+    mutation EnsureContact($input: EnsureContactInput!) {              
+      ensureContact(input: $input) {                       
+        contact {
+          id
+          email
+          name
+          surname
+        }
       }                                                  
     }`.replace(/\s/g, ''))
   })
