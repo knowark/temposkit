@@ -22,15 +22,13 @@ describe('CheckoutForm', () => {
     expect(component).toBe(component.init())
   })
 
-  it('resolves the contact record on submit clicked', async () => {
-    let tenant = null
-    let contactInput = null
+  it('resolves the contact record on ensureContact clicked', async () => {
+    let input = null
 
     const mockContactManager = {
-      ensureContact: async (tenantArgument, contactInputArgument) => {
-        tenant = tenantArgument
-        contactInput = contactInputArgument
-        return Object.assign({id: '001'}, contactInputArgument)
+      ensureContact: async (inputArgument) => {
+        input = inputArgument
+        return Object.assign({id: '001'}, inputArgument)
       }
     }
     component.tenant = 'knowark'
@@ -38,9 +36,8 @@ describe('CheckoutForm', () => {
 
     const event = new MouseEvent('click')
 
-    await component.onSubmitClicked(event)
-    expect(tenant).toEqual(null)
-    expect(contactInput).toEqual(null)
+    await component.onEnsureContactClicked(event)
+    expect(input).toEqual(null)
 
     const controls = component.select('form').elements
     controls.email.value = 'jdoe@example.com'
@@ -50,10 +47,10 @@ describe('CheckoutForm', () => {
       name: 'John Doe'
     }
 
-    await component.onSubmitClicked(event)
+    await component.onEnsureContactClicked(event)
 
-    expect(tenant).toEqual('knowark')
-    expect(contactInput).toEqual({
+    expect(input).toEqual({
+      tenant: 'knowark',
       email: 'jdoe@example.com',
       name: 'John Doe'
     })

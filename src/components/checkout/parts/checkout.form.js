@@ -1,3 +1,4 @@
+import 'components/accordion'
 import 'components/button'
 import 'components/input'
 import { Component } from 'base/component'
@@ -19,14 +20,28 @@ export class TemposCheckoutFormComponent extends Component {
   render() {
     this.content = `
     <form class="${tag}__form" onsubmit="return false">
-      <ark-input name="email" label="* Email" type="email" required
-        listen on-alter="{{ contact.email }}"></ark-input>
-      <ark-input name="name" label="* Name" required
-        listen on-alter="{{ contact.name }}"></ark-input>
-      <ark-input name="surname" label="Surname"
-        listen on-alter="{{ contact.surname }}"></ark-input>
-      <ark-input name="phone" label="Phone"
-        listen on-alter="{{ contact.phone }}"></ark-input>
+
+      <ark-accordion>
+        <ark-accordion-tab header="Contact" active>
+          <ark-input name="email" label="* Email" type="email" required
+            listen on-alter="{{ contact.email }}"></ark-input>
+          <ark-input name="name" label="* Name" required
+            listen on-alter="{{ contact.name }}"></ark-input>
+          <ark-input name="surname" label="Surname"
+            listen on-alter="{{ contact.surname }}"></ark-input>
+          <ark-input name="phone" label="Phone"
+            listen on-alter="{{ contact.phone }}"></ark-input>
+          <ark-button background="success" color="light"
+            listen on-click="onEnsureContactClicked">Guardar
+          </ark-button>
+        </ark-accordion-tab>
+
+        <ark-accordion-tab header="Delivery">
+        </ark-accordion-tab>
+
+        <ark-accordion-tab header="Payment">
+        </ark-accordion-tab>
+      </ark-accordion>
 
       <ark-button background="success" color="light"
         type="submit" listen on-click="onSubmitClicked">Ordenar
@@ -36,12 +51,14 @@ export class TemposCheckoutFormComponent extends Component {
     return super.render()
   }
 
-  async onSubmitClicked(event) {
+  async onEnsureContactClicked(event) {
     event.stopPropagation()
     if (!this.select('form').reportValidity()) return
-    const contact = await this.contactManager.ensureContact(
-      this.tenant, this.contact)
+    const input = Object.assign({tenant: this.tenant}, this.contact)
+    const contact = await this.contactManager.ensureContact(input)
   }
+
+  async onSubmitClicked(event) { }
 }
 
 const styles = /* css */ ``
