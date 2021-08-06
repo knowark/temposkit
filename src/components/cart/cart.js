@@ -146,14 +146,6 @@ const styles = /* css */ `
   display: grid;
   align-items: center;
 }
-.ark-sidebar__menu {
-  min-width: 300px;
-  width: 25%;
-}
-.ark-sidebar__body {
-  width:  100%;
-  padding: 0;
-}
 .${tag}__product {
   position: relative;
   display: grid;
@@ -176,37 +168,11 @@ const styles = /* css */ `
 .${tag}__product-title {
   font-size: 1.3rem;
 }
-.ark-input {
-  margin: 0;
-  padding: 0;
-}
-.ark-input__input {
-  padding: 0rem;
-  box-shadow: none;
-  width: 3rem;
-  text-align: center;
-}
-.ark-input__text {
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: #352e30;
-}
 .${tag}__product-price {
   font-size: 0.9rem;
   font-weight: 400;
   margin-top: 0.5rem;
   color: #352e30;
-}
-.ark-button[fab]{
-  top: -2px;
-  right: 5px;
-  font-size: 2rem;
-  transform: scale(0.6);
-}
-[fab] .ark-button__body {
-  position: relative;
-  left: 1px;
-  bottom: 1px;
 }
 `
 

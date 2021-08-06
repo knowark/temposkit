@@ -48,10 +48,10 @@ export class TemposShowComponent extends Component {
     return /* html */ `
     <ark-card background="primary" round="md"
       title="${product.name}" subtitle="Descripción...">
-      <img class="tempos-show__product-picture" src="${coverImage}"
+      <img class="${tag}__product-picture" src="${coverImage}"
         alt="product picture" slot="media" width="100" height="200">
-      <div class="tempos-show__product-id">${product.id}</div>
-      <div class="tempos-show__product-price">\$ ${product.price}</div>
+      <div class="${tag}__product-id">${product.id}</div>
+      <div class="${tag}__product-price">\$ ${product.price}</div>
       <ark-button background="success" color="dark" slot="actions"
         tempos-show-listen on-click="onProductAddClick" fab
         data-product-id="${product.id}">
@@ -84,7 +84,7 @@ export class TemposShowComponent extends Component {
 }
 
 const styles = /* css */ `
-.tempos-show__content {
+.${tag}__content {
   display: grid;
   padding: 2rem;
   align-items: center;
@@ -92,24 +92,16 @@ const styles = /* css */ `
   grid-template-columns: repeat(
   auto-fit, minmax(min(100%, 200px), 1fr));
 }
-.tempos-show__product-picture {
+.${tag}__product-picture {
   min-width:100%;
   background: white;
   padding: 1rem;
 }
-.tempos-show__product-price {
+.${tag}__product-price {
   font-size: 1.2rem;
   font-weight: 700;
   color: white;
 }
-.ark-card{
-  box-shadow: -1px 1px 10px 2px rgba(56,43,255,0.42);
-}
-.ark-card__header,
-.ark-card__actions,
-.ark-card__body{
-  padding: 0.5rem 1.2rem;
-} 
 `
 
 Component.define(tag, TemposShowComponent, styles)
