@@ -51,8 +51,10 @@ describe('CheckoutForm', () => {
 
     expect(input).toEqual({
       tenant: 'knowark',
-      email: 'jdoe@example.com',
-      name: 'John Doe'
+      contact: {
+        email: 'jdoe@example.com',
+        name: 'John Doe'
+      }
     })
   })
 })
