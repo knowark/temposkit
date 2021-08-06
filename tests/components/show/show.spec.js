@@ -37,7 +37,7 @@ describe('Show', () => {
     ] 
 
     const mockShowInformer = {
-      showProducts: async (tenant, filterInput) => products
+      showProducts: async (showProductsInput) => products
     }
 
     component.showInformer = mockShowInformer
@@ -58,7 +58,7 @@ describe('Show', () => {
     ] 
 
     const mockShowInformer = {
-      showProducts: async (tenant, filterInput) => products
+      showProducts: async (showProductsInput) => products
     }
 
     component.showInformer = mockShowInformer

@@ -63,10 +63,10 @@ export class TemposShowComponent extends Component {
 
   async load() {
     const tenant = this.tenant
-    const input = {
+    const filter = {
       limit: parseInt(this.limit), offset: parseInt(this.offset) }
-
-    this.products = await this.showInformer.showProducts(tenant, input)
+  
+    this.products = await this.showInformer.showProducts({tenant, filter})
 
     this.render()
 

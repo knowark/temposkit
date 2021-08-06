@@ -7,10 +7,8 @@ describe('ShowInformer', () => {
 
   beforeEach(() => {
     class MockClient {
-      async fetch(query, variables) {
-        this.query = query
-        this.variables = variables
-        return {
+      constructor() {
+        this.result = {
           showProducts: {
             products: [
               {id: '001', name: 'Ball'},
@@ -18,6 +16,12 @@ describe('ShowInformer', () => {
             ]
           } 
         } 
+      }
+
+      async fetch(query, variables) {
+        this.query = query
+        this.variables = variables
+        return this.result
       }
     }
 
@@ -42,14 +46,14 @@ describe('ShowInformer', () => {
     const client = informer.client
 
     const tenant = 'demo'
-    const filterInput = { limit: 6, offset: 0}
-    const products = await informer.showProducts(tenant, filterInput)
+    const filter= { limit: 6, offset: 0}
+    const products = await informer.showProducts({tenant, filter})
 
     expect(products).toEqual([
       {id: '001', name: 'Ball'},  {id: '002', name: 'Car'}])
     expect(client.query.replace(/\s/g, '')).toEqual(`
-    query ShowProducts($tenant: String!, $input: FilterInput) {              
-      showProducts(tenant: $tenant, input: $input) {                       
+    query ShowProducts($input: ShowProductsInput) {             
+      showProducts(input: $input) {                       
         products {                                       
           id                                             
           name                                           
@@ -64,7 +68,28 @@ describe('ShowInformer', () => {
     }`.replace(/\s/g, ''))
     expect(client.variables).toEqual({
       tenant: 'demo',
-      input: { limit: 6, offset: 0 }
+      filter: { limit: 6, offset: 0 }
+    })
+  })
+
+  it("returns an empty list when no products are fetched", async () => {
+    const client = informer.client
+
+    const tenant = 'demo'
+    const filter= { limit: 6, offset: 0}
+
+    informer.client.result = {
+      showProducts: {
+        products: null
+      }
+    }
+
+    const products = await informer.showProducts({tenant, filter})
+
+    expect(products).toEqual([])
+    expect(client.variables).toEqual({
+      tenant: 'demo',
+      filter: { limit: 6, offset: 0 }
     })
   })
 

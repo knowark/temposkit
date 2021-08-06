@@ -4,8 +4,8 @@ export class ShowInformer {
   constructor(context = {}) {
     this.client = context.client || new ApiClient({ url: config.apiUrl })
     this.showQuery = `
-    query ShowProducts($tenant: String!, $input: FilterInput) {              
-      showProducts(tenant: $tenant, input: $input) {                       
+    query ShowProducts($input: ShowProductsInput) {              
+      showProducts(input: $input) {                       
         products {                                       
           id                                             
           name                                           
@@ -21,12 +21,12 @@ export class ShowInformer {
     `
   }
 
-  async showProducts(tenant, filterInput) {
+  async showProducts({tenant, filter}) {
     const variables = {
       tenant: tenant,
-      input: filterInput
+      filter: filter
     }
     const data = await this.client.fetch(this.showQuery, variables)
-    return data.showProducts.products
+    return data.showProducts && data.showProducts.products || []
   }
 }
