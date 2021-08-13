@@ -39,7 +39,7 @@ export class TemposCartComponent extends Component {
       <img class="${tag}__image" height="32" src="${temposCartImage}">
       <span data-counter class="${tag}__counter">${this.count}</span>
     </div>
-    <ark-sidebar side="right">
+    <ark-sidebar cart-sidebar side="right">
       <div slot="header">Carrito</div>
       <div data-content>
         ${Object.values(this.items)
@@ -64,13 +64,13 @@ export class TemposCartComponent extends Component {
           style="background-image: url(${temposProductImage})"></div>
         <div class="${tag}__product-info">
         <h1 class="${tag}__product-title">${item.name}</h1>
-        <ark-input inline label="Quantity:" type="number"
+        <ark-input cart-input inline label="Quantity:" type="number"
           min="1" listen on-alter="onItemAltered"
           value="${item.quantity}"></ark-input>
         <div class="${tag}__product-price">
           Price: <span>${item.price}$<span></div>
         </div>
-        <ark-button fab horizontal="end" vertical="start" background="danger" listen
+        <ark-button cart-close-button fab horizontal="end" vertical="start" background="danger" listen
           on-click="onDeleteClicked">×</ark-button>
       </div>
     `
@@ -128,9 +128,11 @@ const styles = /* css */ `
   align-items: center;
   width: 4rem;
 }
+
 .${tag}__image {
   transform: scale(1.3);
 }
+
 .${tag}__counter {
   position: relative;
   bottom: 9px;
@@ -142,17 +144,20 @@ const styles = /* css */ `
   padding: 0.1px 10px;
   margin-left: -10px;
 }
+
 .${tag}__footer {
   display: grid;
   align-items: center;
 }
+
 .${tag}__product {
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  place-items: center;
+  place-items: center start;
   border-bottom: 2px solid #d8d8d8;
 }
+
 .${tag}__product-image {
   width: 70px;
   height: 70px;
@@ -161,13 +166,61 @@ const styles = /* css */ `
   background-position: center;
   margin-left: 1rem;
 }
+
+[cart-sidebar] .ark-sidebar__menu {
+  min-width: 300px;
+  width: 25%;
+}
+
+[cart-sidebar] .ark-sidebar__body {
+  width:  100%;
+  padding: 0;
+}
+
+[cart-sidebar] [data-content] {
+  width: 100%;
+  height: 100%;
+}
+
+[cart-input] {
+  margin: 0;
+  padding: 0;
+}
+
+[cart-input] input {
+  padding: 0rem;
+  box-shadow: none;
+  width: 3rem;
+  text-align: center;
+}
+
+[cart-input] .ark-input__text {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #352e30;
+}
+
+[cart-close-button] {
+  position: absolute;
+  transform: scale(0.8);
+}
+
+[cart-close-button] .ark-button__body {
+  position: relative;
+  font-size: 3rem;
+  left: 2px;
+  bottom: 3px;
+}
+
 .${tag}__product-info {
   display: grid;
   grid-column: span 2;
 }
+
 .${tag}__product-title {
   font-size: 1.3rem;
 }
+
 .${tag}__product-price {
   font-size: 0.9rem;
   font-weight: 400;
