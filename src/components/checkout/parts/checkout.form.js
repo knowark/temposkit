@@ -54,11 +54,11 @@ export class TemposCheckoutFormComponent extends Component {
   async onEnsureContactClicked(event) {
     event.stopPropagation()
     if (!this.select('form').reportValidity()) return
-    const input = Object.assign({tenant: this.tenant, contact: this.contact})
+    const input = Object.assign({ tenant: this.tenant, contact: this.contact })
     const contact = await this.contactManager.ensureContact(input)
   }
 
-  async onSubmitClicked(event) { }
+  // async onSubmitClicked(event) { }
 }
 
 const styles = /* css */ ``
