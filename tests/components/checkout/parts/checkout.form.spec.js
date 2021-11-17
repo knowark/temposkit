@@ -28,8 +28,8 @@ describe('CheckoutForm', () => {
     const mockContactManager = {
       ensureContact: async (inputArgument) => {
         input = inputArgument
-        return Object.assign({id: '001'}, inputArgument)
-      }
+        return Object.assign({ id: '001' }, inputArgument)
+      },
     }
     component.tenant = 'knowark'
     component.contactManager = mockContactManager
@@ -40,11 +40,12 @@ describe('CheckoutForm', () => {
     expect(input).toEqual(null)
 
     const controls = component.select('form').elements
+
     controls.email.value = 'jdoe@example.com'
-    controls.name.value = 'John Doe'
+    // controls.name.value = 'John Doe'
     component.contact = {
       email: 'jdoe@example.com',
-      name: 'John Doe'
+      // name: 'John Doe',
     }
 
     await component.onEnsureContactClicked(event)
@@ -53,8 +54,8 @@ describe('CheckoutForm', () => {
       tenant: 'knowark',
       contact: {
         email: 'jdoe@example.com',
-        name: 'John Doe'
-      }
+        // name: 'John Doe',
+      },
     })
   })
 })
