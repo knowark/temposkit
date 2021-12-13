@@ -23,9 +23,9 @@ export class TemposCheckoutComponent extends Component {
   }
 
   render() {
-    this.content = `
-    <ark-modal title="Checkout" width="90vw" height="90vh" block-scrim>
-      <ark-splitview background="secondary">
+    this.content = /* html */ `
+    <ark-modal title="Checkout" width="70vw" height="90vh" block-scrim>
+      <ark-splitview>
         <ark-splitview-master>
           <tempos-checkout-form tenant="${this.tenant}">
           </tempos-checkout-form>
