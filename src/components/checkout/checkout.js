@@ -50,6 +50,12 @@ export class TemposCheckoutComponent extends Component {
 
 }
 
-const styles = /* css */ ``
+const styles = /* css */ `
+ .tempos-checkout-form {
+   display: grid;
+   padding: 0.5rem;
+   gap: 0.5rem;
+ }
+`
 
 Component.define(tag, TemposCheckoutComponent, styles)
