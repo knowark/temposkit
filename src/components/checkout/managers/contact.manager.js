@@ -9,8 +9,8 @@ export class ContactManager {
         contact {
           id
           email
-          name
-          surname
+          firstName
+          firstSurname
         }
       }
     }`

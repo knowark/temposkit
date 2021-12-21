@@ -14,7 +14,7 @@ export class TemposCheckoutSummaryComponent extends Component {
   }
 
   render() {
-    this.content = `
+    this.content = /*html*/ `
     <h1>Items</h1>
     <hr>
     <div data-content>
@@ -22,9 +22,21 @@ export class TemposCheckoutSummaryComponent extends Component {
         .map((item) => this.renderItem(item))
         .join('')}
     </div>
+    <div class="form-actions">
+      <ark-button listen on-click="onCancel">cancel</ark-button>
+      <ark-button background="info" listen on-click="onNextAction">Next</ark-button>
+    </div>
     `
     return super.render()
   }
+
+  onNextAction() {
+    this.emit('next-form', { 
+      actual:'tempos-checkout-summary', 
+      form: 'tempos-checkout-contact'
+    } )
+  }
+
   renderItem(item) {
     return `
     <div class="${tag}__product">

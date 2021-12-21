@@ -1,14 +1,14 @@
-import 'src/components/checkout/parts/checkout.form.js'
+import 'src/components/checkout/parts/checkout.contact.js'
 
-describe('CheckoutForm', () => {
+describe('CheckoutContact', () => {
   let container = null
   let component = null
 
   beforeEach(() => {
     container = document.createElement('div')
     document.body.append(container)
-    container.innerHTML = `<tempos-checkout-form></tempos-checkout-form>`
-    component = container.querySelector('tempos-checkout-form')
+    container.innerHTML = `<tempos-checkout-contact></tempos-checkout-contact>`
+    component = container.querySelector('tempos-checkout-contact')
   })
 
   afterEach(() => {
@@ -40,12 +40,17 @@ describe('CheckoutForm', () => {
     expect(input).toEqual(null)
 
     const controls = component.select('form').elements
-
+    
     controls.email.value = 'jdoe@example.com'
-    // controls.name.value = 'John Doe'
+    controls.firstName.value = "Jane"
+    controls.firstSurname.value = "Doe"
+    controls.phone.value = "355455"
+    
     component.contact = {
       email: 'jdoe@example.com',
-      // name: 'John Doe',
+      firstName: 'Jane',
+      firstSurname: 'Doe',
+      phone: '355455'
     }
 
     await component.onEnsureContactClicked(event)
@@ -54,8 +59,22 @@ describe('CheckoutForm', () => {
       tenant: 'knowark',
       contact: {
         email: 'jdoe@example.com',
-        // name: 'John Doe',
+        firstName: 'Jane',
+        firstSurname: 'Doe',
+        phone: '355455'
       },
     })
+  })
+
+  it('navigates to the previous form', () => {
+    let detail = null
+    component.addEventListener('next-form', (event) => detail = event.detail)
+    const event = new MouseEvent('click')
+    component.onBackForm(event)
+
+    expect(detail).toStrictEqual({ 
+        actual: 'tempos-checkout-contact', 
+        form: 'tempos-checkout-summary'
+      })
   })
 })

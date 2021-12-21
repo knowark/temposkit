@@ -2,7 +2,8 @@ import 'components/button'
 import 'components/modal'
 import 'components/splitview'
 import { Component } from 'base/component'
-import './parts/checkout.form'
+import './parts/checkout.contact'
+import './parts/checkout.delivery'
 import './parts/checkout.summary'
 
 const tag = 'tempos-checkout'
@@ -24,22 +25,34 @@ export class TemposCheckoutComponent extends Component {
 
   render() {
     this.content = /* html */ `
-    <ark-modal title="Checkout" width="70vw" height="90vh" block-scrim>
-      <ark-splitview>
-        <ark-splitview-master>
-          <tempos-checkout-form tenant="${this.tenant}">
-          </tempos-checkout-form>
-        </ark-splitview-master>
-        <ark-splitview-detail>
-          <tempos-checkout-summary>
+    <ark-modal title="Checkout" width="60vw" height="fit-content" block-scrim>
+          <tempos-checkout-summary listen on-next-form="onActionForm" show>
           </tempos-checkout-summary>
-        </ark-splitview-detail>
-      </ark-splitview>
-      <ark-button slot="action" color="light"
-        close>Cerrar</ark-button>
+
+          <tempos-checkout-contact tenant="${this.tenant}" listen on-next-form="onActionForm">
+          </tempos-checkout-contact>
+
+          <tempos-checkout-delivery listen on-next-form="onActionForm">
+          </tempos-checkout-delivery>
+      <!--<ark-button slot="action" color="light"
+        close>Cerrar</ark-button>-->
     </ark-modal>
     `
+    this.select('.tempos-checkout-contact').style.display = 'none'
+    this.select('.tempos-checkout-delivery').style.display = 'none'
     return super.render()
+  }
+
+  onActionForm(event){
+    event.stopPropagation()
+    this.handleSteps(event.detail)
+  }
+
+  handleSteps(detail) {
+    const actualComponent = this.select(detail.actual)
+    actualComponent.style.display = 'none'
+    const formComponent = this.select(detail.form)
+    formComponent.style.display = 'initial'
   }
 
   async onCheckout(event) {
@@ -51,11 +64,19 @@ export class TemposCheckoutComponent extends Component {
 }
 
 const styles = /* css */ `
- .tempos-checkout-form {
-   display: grid;
-   padding: 0.5rem;
-   gap: 0.5rem;
+ [data-form] {
+   animation-name: slide;
+   animation-duration: 0.3s;
  }
+ @keyframes slide {
+   from {
+    opacity: 0;
+   }
+   to {
+    opacity: 1;
+   }
+ }
+
 `
 
 Component.define(tag, TemposCheckoutComponent, styles)
