@@ -31,7 +31,7 @@ describe("DeliveryManager", () => {
     const client = manager.client
     const input = { country: "Japan", city: "Kioto" }
 
-    const delivery = await manager.setAddresses(input)
+    const delivery = await manager.ensureAddress(input)
 
     expect(client.variables).toEqual({
       input: { country: "Japan", city: "Kioto" },
@@ -39,17 +39,15 @@ describe("DeliveryManager", () => {
 
     expect(client.query.replace(/\s/g, "")).toEqual(
       `
-    mutation setAddresses($input: SetAddressesInput!) {              
-      setAdresses(input: $input) {                       
-        addresses {
+    mutation ensureAddress($input: EnsureAddressInput!) {              
+      ensureAddress(input: $input) {                       
+        address {
           id
           country
           city
           address
-          contactid
-        }
-      }                                                  
-    }`.replace(/\s/g, "")
+          contactId
+      }}}`.replace(/\s/g, "")
     )
   })
 })

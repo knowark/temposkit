@@ -14,7 +14,8 @@ export class TemposCheckoutComponent extends Component {
       'checkout', this.onCheckout.bind(this))
 
     const urlParams = new URLSearchParams(this.global.location.search)
-    this.tenant = this.tenant || urlParams.get('tenant') || 'demo'
+    this.tenant = this.tenant || this.global.localStorage.getItem('tenant') || 'demo'
+    this.shared = this.shared || {}
 
     return super.init(context)
   }
@@ -25,7 +26,10 @@ export class TemposCheckoutComponent extends Component {
 
   render() {
     this.content = /* html */ `
-    <ark-modal title="Checkout" width="60vw" height="fit-content" block-scrim>
+    <ark-modal 
+      title="Checkout" 
+      width="clamp(18rem, 44vw - 1.2rem, 26.25rem);" 
+      height="fit-content" block-scrim>
           <tempos-checkout-summary listen on-next-form="onActionForm" show>
           </tempos-checkout-summary>
 
@@ -34,8 +38,16 @@ export class TemposCheckoutComponent extends Component {
 
           <tempos-checkout-delivery listen on-next-form="onActionForm">
           </tempos-checkout-delivery>
-      <!--<ark-button slot="action" color="light"
-        close>Cerrar</ark-button>-->
+          <ark-button 
+            fab close
+            size="small"
+            vertical="start"
+            background="light"
+            color="dark"
+            slot="header">
+              <ark-icon name="fas fa-times">
+              </ark-icon>
+          </ark-button>
     </ark-modal>
     `
     this.select('.tempos-checkout-contact').style.display = 'none'
@@ -53,6 +65,8 @@ export class TemposCheckoutComponent extends Component {
     actualComponent.style.display = 'none'
     const formComponent = this.select(detail.form)
     formComponent.style.display = 'initial'
+    formComponent.data = detail.data || ''
+    detail.close ? this.select('ark-modal').close() : ''
   }
 
   async onCheckout(event) {
@@ -67,6 +81,12 @@ const styles = /* css */ `
  [data-form] {
    animation-name: slide;
    animation-duration: 0.3s;
+ }
+ [data-next] .ark-button__button {
+  grid-template-columns: 1fr 0.2fr;
+  }
+ [data-next] .ark-button__button {
+  text-align: center
  }
  @keyframes slide {
    from {

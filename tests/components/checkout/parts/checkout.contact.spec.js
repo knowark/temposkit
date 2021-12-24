@@ -28,10 +28,14 @@ describe('CheckoutContact', () => {
     const mockContactManager = {
       ensureContact: async (inputArgument) => {
         input = inputArgument
-        return Object.assign({ id: '001' }, inputArgument)
+        return { id: '001',
+                 tenant: 'knowark', 
+                 ensureContact: {...input}}
       },
     }
+
     component.tenant = 'knowark'
+
     component.contactManager = mockContactManager
 
     const event = new MouseEvent('click')
@@ -47,10 +51,10 @@ describe('CheckoutContact', () => {
     controls.phone.value = "355455"
     
     component.contact = {
-      email: 'jdoe@example.com',
-      firstName: 'Jane',
-      firstSurname: 'Doe',
-      phone: '355455'
+        email: 'jdoe@example.com',
+        firstName: 'Jane',
+        firstSurname: 'Doe',
+        phone: '355455'
     }
 
     await component.onEnsureContactClicked(event)

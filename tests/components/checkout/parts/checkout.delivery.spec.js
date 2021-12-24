@@ -1,6 +1,6 @@
 import 'src/components/checkout/parts/checkout.delivery.js'
 
-describe('CheckoutContact', () => {
+describe('CheckoutDelivery', () => {
   let container = null
   let component = null
 
@@ -23,15 +23,16 @@ describe('CheckoutContact', () => {
   })
 
   it('resolves the delivery record on ensureDelivery clicked', async () => {
-    // let input = null
+    let input = null
 
-    // const mockDeliveryManager = {
-    //   ensureContact: async (inputArgument) => {
-    //     input = inputArgument
-    //     return Object.assign({ id: '001' }, inputArgument)
-    //   },
-    // }
-    // component.deliveryManager = mockDeliveryManager
+    const mockDeliveryManager = {
+      ensureAddress: async (inputArgument) => {
+        input = inputArgument
+        return { id: '001' , ...inputArgument }
+      },
+    }
+    component.tenant = 'knowark'
+    component.deliveryManager = mockDeliveryManager
     
     const event = new MouseEvent('click')
     await component.onEnsureDeliveryClicked(event)
@@ -41,23 +42,25 @@ describe('CheckoutContact', () => {
     controls.country.value = 'England'
     controls.city.value = "London"
     controls.address.value = "South Street 55"
-    
-    component.contact = {
+
+    component.data = {id: '001'}
+    component.address = {
       country: 'England',
       city: 'London',
-      address: 'South Street 55',
+      address: 'South Street 55'
     }
 
     await component.onEnsureDeliveryClicked(event)
-
-    // expect(input).toEqual({
-    //   tenant: 'knowark',
-    //   delivery: {
-    //     country: 'England',
-    //     city: 'London',
-    //     address: 'South Street 55'
-    //   },
-    // })
+    
+    expect(input).toEqual({
+      tenant: 'knowark',
+      address: {
+        country: 'England',
+        city: 'London',
+        address: 'South Street 55',
+        contactId: '001'
+      },
+    })
   })
 
     it('navigates to the previous form', () => {

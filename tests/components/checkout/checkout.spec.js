@@ -51,6 +51,24 @@ describe('Checkout', () => {
 
     expect(summaryForm.style.display).toStrictEqual('none')
     expect(contactForm.style.display).toStrictEqual('initial')
-    
+  })
+
+  it('Closes modal when key close is present', async () => {
+    const openEvent = new CustomEvent('checkout', {detail: {}})
+    await component.onCheckout(openEvent)
+    const summaryForm = component.select('tempos-checkout-summary')
+    const contactForm = component.select('tempos-checkout-contact')
+
+    const navigationEvent = new CustomEvent('next-form', {
+      detail: {
+        actual: 'tempos-checkout-summary',
+        form: 'tempos-checkout-contact',
+        close: true
+      }
+    })
+
+    component.onActionForm(navigationEvent)
+
+    expect(component.select('ark-modal').hasAttribute('show')).toBeFalsy()
   })
 })

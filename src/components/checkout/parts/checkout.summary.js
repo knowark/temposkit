@@ -17,6 +17,7 @@ export class TemposCheckoutSummaryComponent extends Component {
     this.content = /*html*/ `
     <h1>Items</h1>
     <hr>
+    <ark-table></ark-table>
     <div data-content>
       ${Object.values(this.items)
         .map((item) => this.renderItem(item))
@@ -24,7 +25,14 @@ export class TemposCheckoutSummaryComponent extends Component {
     </div>
     <div class="form-actions">
       <ark-button listen on-click="onCancel">cancel</ark-button>
-      <ark-button background="info" listen on-click="onNextAction">Next</ark-button>
+      <ark-button
+        data-next
+        icon-position="right"
+        background="success" 
+        listen on-click="onNextAction">
+          <ark-icon slot="icon" name="fas fa-angle-right"></ark-icon>
+          Next
+        </ark-button>
     </div>
     `
     return super.render()
@@ -36,6 +44,7 @@ export class TemposCheckoutSummaryComponent extends Component {
       form: 'tempos-checkout-contact'
     } )
   }
+
 
   renderItem(item) {
     return `

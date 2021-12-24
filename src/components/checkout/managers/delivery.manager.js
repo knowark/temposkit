@@ -4,20 +4,20 @@ export class DeliveryManager {
   constructor(context = {}) {
     this.client = context.client || new ApiClient({ url: config.apiUrl })
     this.addressesQuery = `
-    mutation setAddresses($input: SetAddressesInput!) {
-      setAdresses(input: $input) {
-        addresses {
+    mutation ensureAddress($input: EnsureAddressInput!) {
+      ensureAddress(input: $input) {
+        address {
           id
           country
           city
           address
-          contactid
+          contactId
         }
       }
     }`
   }
 
-  async setAddresses(input) {
+  async ensureAddress(input) {
     return await this.client.fetch(this.addressesQuery, {input})
   }
 }

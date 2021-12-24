@@ -2,13 +2,15 @@ import "components/accordion"
 import "components/button"
 import "components/input"
 import { Component } from "base/component"
-// import { DeliveryManager } from "../managers/delivery.manager"
+import { DeliveryManager } from "../managers/delivery.manager"
 
 const tag = "tempos-checkout-delivery"
 export class TemposCheckoutDeliveryComponent extends Component {
   init(context = {}) {
-    // this.contactManager = context.contactManager || new ContactManager(context)
-    this.delivery = {}
+    this.deliveryManager = context.deliveryManager || new DeliveryManager(context)
+    this.data = context.data || this.data || {}
+    this.tenant = this.tenant || 'demo'
+    this.address = {}
     return super.init()
   }
 
@@ -16,11 +18,11 @@ export class TemposCheckoutDeliveryComponent extends Component {
     this.content = /*html */ `
       <form  data-form class="${tag}__form" onsubmit="return false">
           <ark-input name="country" label="* Country" required
-            listen on-alter="{{ delivery.country }}"></ark-input>
+            listen on-alter="{{ address.country }}"></ark-input>
           <ark-input name="city" label="* City" required
-            listen on-alter="{{ delivery.city }}"></ark-input>
+            listen on-alter="{{ address.city }}"></ark-input>
           <ark-input name="address" label="Address"
-            listen on-alter="{{ delivery.address }}">  
+            listen on-alter="{{ address.address }}">  
           </ark-input>
 
           <ark-input 
@@ -31,10 +33,12 @@ export class TemposCheckoutDeliveryComponent extends Component {
           </ark-input>
           
           <div class="form-actions">
-            <ark-button background="success" color="light"
-              listen on-click="onBackForm">Back
-            </ark-button>
-            <ark-button background="success" color="light"
+            <ark-button color="dark"
+              listen on-click="onBackForm">
+              Back
+              <ark-icon slot="icon" name="fas fa-angle-left"></ark-icon>
+              </ark-button>
+              <ark-button background="success" color="light"
               listen on-click="onEnsureDeliveryClicked">Complete
             </ark-button>
           </div>
@@ -42,17 +46,26 @@ export class TemposCheckoutDeliveryComponent extends Component {
     `
     return super.render()
   }
-
+  
   async onEnsureDeliveryClicked(event) {
     event.stopPropagation()
     if (!this.select("form").reportValidity()) return
-    const input = Object.assign({ delivery: this.delivery })
+    
+    const input = Object.assign({
+      tenant: this.tenant, 
+      address:  { 
+        contactId: this.data.id, 
+      ...this.address
+      }
+    })
+
     this.emit('next-form', { 
       actual:'tempos-checkout-delivery', 
-      form: 'tempos-checkout-delivery'
+      form: 'tempos-checkout-delivery',
+      close: true
     } )
     
-    //const contact = await this.contactManager.ensureContact(input)
+    const delivery = await this.deliveryManager.ensureAddress(input)
   }
 
   onBackForm(event) {

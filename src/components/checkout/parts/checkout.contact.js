@@ -31,11 +31,18 @@ export class TemposCheckoutContactComponent extends Component {
             listen on-alter="{{ contact.cellPhone }}"></ark-input>
           
           <div class="form-actions">
-            <ark-button data-backwards background="success" color="light"
-              listen on-click="onBackForm">Back
+            <ark-button data-backwards color="dark"
+              listen on-click="onBackForm">
+              Back
+              <ark-icon slot="icon" name="fas fa-angle-left"></ark-icon>
             </ark-button>
-            <ark-button data-ensure-contact background="success" color="light"
+            <ark-button 
+              data-next
+              data-ensure-contact
+              background="success" color="light"
+              icon-position="right"
               listen on-click="onEnsureContactClicked">Next
+                <ark-icon slot="icon" name="fas fa-angle-right"></ark-icon>
             </ark-button>
           </div>
       </form>
@@ -45,13 +52,16 @@ export class TemposCheckoutContactComponent extends Component {
 
   async onEnsureContactClicked(event) {
     event.stopPropagation()
+
     if (!this.select("form").reportValidity()) return
     const input = Object.assign({ tenant: this.tenant, contact: this.contact })
     const contact = await this.contactManager.ensureContact(input)
     this.emit('next-form', { 
       actual:'tempos-checkout-contact', 
-      form: 'tempos-checkout-delivery'
-    } )
+      form: 'tempos-checkout-delivery',
+      data: contact.ensureContact.contact 
+    })
+
   }
 
   onBackForm(event) {
@@ -69,6 +79,7 @@ const styles = /* css */ `
     display: grid;
     gap: 0.5rem;
   }
+  
 `
 
 Component.define(tag, TemposCheckoutContactComponent, styles)
