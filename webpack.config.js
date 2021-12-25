@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = (env, argv) => {
   const devMode = argv.mode === 'development'
   const target = env.TARGET
-  const apiUrl = (devMode ? 'http://api.tempos.local/graphql' : 
+  const apiUrl = (devMode ? 'https://api.tempos.site/graphql' : 
     'https://api.tempos.site/graphql')
 
   const config = {

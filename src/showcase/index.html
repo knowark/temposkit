@@ -1,18 +1,16 @@
-<!DOCTYPE html>                                                                                                     
-<html>                                                                                                              
-                                                                                                                    
-<head>                                                                                                              
-  <meta charset="utf-8">                                                                                            
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,                                                                
-      initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />                                                    
-  <title>Temposkit</title>                                                                                          
-  <link href="https://fonts.googleapis.com/css2?family=Material+Icons"                                              
-    rel="stylesheet">                                                                                               
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"          
-    integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="     
-    crossorigin="anonymous" />                                                                                      
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap"                         
-    rel="stylesheet">                                                                                               
+      initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Temposkit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+    crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
     integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
     crossorigin="anonymous" />
@@ -21,14 +19,17 @@
     :root {
       --primary: #2E294E;
       --secondary: slategray;
-      --success: rgb(39, 189, 169); 
+      --light: white;
+      --dark: black;
+      --success: rgb(39, 189, 169);
       --danger: red;
       --size-sm: 150px;
       --size-md: 300px;
       --md: 1rem;
     }
 
-    html, * {
+    html,
+    * {
       padding: 0;
       margin: 0;
       box-sizing: border-box;
@@ -37,7 +38,7 @@
 
     .navbar {
       display: grid;
-      grid-template-columns:repeat(2, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       align-items: center;
       user-select: none;
 
@@ -49,7 +50,7 @@
       font-size: 1.5rem;
       font-weight: bold;
       padding: 1rem;
-      vertical-align:  middle;
+      vertical-align: middle;
     }
 
     .navbar__actions {
@@ -61,13 +62,28 @@
       grid-template-columns: 4fr 1fr;
     }
 
-    .ark-button[fab]:active{
+    .ark-button[fab]:active {
       background: var(--danger);
     }
+
+    .ark-modal__content {
+      grid-template-rows: min-content 1fr min-content;
+    }
+
+    form {
+      padding: 0.5rem;
+    }
+
+    .form-actions {
+      display: grid;
+      gap: 1rem;
+      padding: 0.5rem;
+      grid-auto-flow: column;
+    }
   </style>
-</head>                                                                                                             
-                                                                                                                    
-<body>                                                                                                              
+</head>
+
+<body>
   <header>
     <nav class="navbar">
       <span class="navbar__brand">
@@ -85,6 +101,6 @@
 
 
 
-</body>                                                                                                             
-                                                                                                                    
-</html>                                                                                                             
+</body>
+
+</html>

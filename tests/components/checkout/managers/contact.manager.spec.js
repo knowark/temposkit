@@ -1,8 +1,6 @@
-import {
-  ContactManager
-} from 'src/components/checkout/managers/contact.manager'
+import { ContactManager } from "src/components/checkout/managers/contact.manager"
 
-describe('ContactManager', () => {
+describe("ContactManager", () => {
   let manager = null
 
   beforeEach(() => {
@@ -10,7 +8,7 @@ describe('ContactManager', () => {
       async fetch(query, variables) {
         this.query = query
         this.variables = variables
-        return {} 
+        return {}
       }
     }
     manager = new ContactManager({ client: new MockClient() })
@@ -20,35 +18,36 @@ describe('ContactManager', () => {
     manager = null
   })
 
-  it('can be instantiated', () => {
+  it("can be instantiated", () => {
     expect(manager).toBeTruthy()
   })
 
-  it('can be instantiated without arguments', () => {
+  it("can be instantiated without arguments", () => {
     const manager = new ContactManager()
     expect(manager).toBeTruthy()
   })
 
-  it('ensures a contact record given its details', async () => {
+  it("ensures a contact record given its details", async () => {
     const client = manager.client
-    const input = { tenant: 'knowark', email: 'jdoe@example.com' }
+    const input = { tenant: "knowark", email: "jdoe@example.com" }
 
     const contact = await manager.ensureContact(input)
 
-    expect(client.variables).toEqual(
-      { input: { tenant: 'knowark', email: 'jdoe@example.com' }})
-    expect(client.query.replace(/\s/g, '')).toEqual(`
+    expect(client.variables).toEqual({
+      input: { tenant: "knowark", email: "jdoe@example.com" },
+    })
+    expect(client.query.replace(/\s/g, "")).toEqual(
+      `
     mutation EnsureContact($input: EnsureContactInput!) {              
       ensureContact(input: $input) {                       
         contact {
           id
           email
-          name
-          surname
+          firstName
+          firstSurname
         }
       }                                                  
-    }`.replace(/\s/g, ''))
+    }`.replace(/\s/g, "")
+    )
   })
-
 })
-
