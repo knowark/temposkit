@@ -19,7 +19,7 @@ export class TemposCheckoutContactComponent extends Component {
 
   render() {
     this.content = /*html */ `
-    <form data-form class="${tag}__form" onsubmit="return false">
+    <form novalidate data-form class="${tag}__form" onsubmit="return false">
           <h3>1. Contact</h3>
           <ark-input name="email" label="* Email" type="email" required
             listen on-alter="{{ contact.email }}"></ark-input>
@@ -75,8 +75,9 @@ export class TemposCheckoutContactComponent extends Component {
 }
 
 const styles = /* css */ `
-  .${tag}__form {
+  .${tag} {
     display: grid;
+    padding: 1rem;
     gap: 0.5rem;
   }
   

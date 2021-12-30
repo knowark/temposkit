@@ -16,7 +16,8 @@ export class TemposCheckoutDeliveryComponent extends Component {
 
   render() {
     this.content = /*html */ `
-      <form  data-form class="${tag}__form" onsubmit="return false">
+      <form novalidate data-form class="${tag}__form" onsubmit="return false">
+          <h3>2. Delivery</h3>
           <ark-input name="country" label="* Country" required
             listen on-alter="{{ address.country }}"></ark-input>
           <ark-input name="city" label="* City" required
@@ -79,8 +80,9 @@ export class TemposCheckoutDeliveryComponent extends Component {
 }
 
 const styles = /* css */ `
-  .${tag}__form {
+  .${tag} {
     display: grid;
+    padding: 1rem;
     gap: 0.5rem;
   }
 `

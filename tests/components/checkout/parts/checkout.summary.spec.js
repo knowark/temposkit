@@ -37,7 +37,7 @@ describe('CheckoutSummary', () => {
 
     const content = component.select('[data-content]')
 
-    expect(content.children.length).toEqual(3)
+    expect(content.children.length).toEqual(2)
   })
 
   it('navigates to the next form', () => {
@@ -45,11 +45,16 @@ describe('CheckoutSummary', () => {
     component.addEventListener('next-form', (event) => detail = event.detail)
     const event = new MouseEvent('click')
     component.onNextAction(event)
-
+    
     expect(detail).toStrictEqual({ 
-        actual: 'tempos-checkout-summary', 
-        form: 'tempos-checkout-contact'
-      })
+      actual: 'tempos-checkout-summary', 
+      form: 'tempos-checkout-contact'
+    })
+    
+    component.onCancel(event)
+    expect(detail).toStrictEqual({ 
+      close: true, 
+    })
   })
 
 })

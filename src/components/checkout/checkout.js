@@ -61,12 +61,14 @@ export class TemposCheckoutComponent extends Component {
   }
 
   handleSteps(detail) {
+    detail.close ? this.select('ark-modal').close() : ''
+    
     const actualComponent = this.select(detail.actual)
     actualComponent.style.display = 'none'
+    
     const formComponent = this.select(detail.form)
-    formComponent.style.display = 'initial'
+    formComponent.style.display = 'grid'
     formComponent.data = detail.data || ''
-    detail.close ? this.select('ark-modal').close() : ''
   }
 
   async onCheckout(event) {

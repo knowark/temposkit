@@ -50,7 +50,7 @@ describe('Checkout', () => {
     component.onActionForm(navigationEvent)
 
     expect(summaryForm.style.display).toStrictEqual('none')
-    expect(contactForm.style.display).toStrictEqual('initial')
+    expect(contactForm.style.display).toStrictEqual('grid')
   })
 
   it('Closes modal when key close is present', async () => {
