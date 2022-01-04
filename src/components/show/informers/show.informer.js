@@ -21,12 +21,14 @@ export class ShowInformer {
     `
   }
 
-  async showProducts({tenant, filter}) {
-    const variables = {
+
+  async showProducts({tenant, filter, subdomain}) {
+    const input = {
       tenant: tenant,
-      filter: filter
+      filter: filter,
+      subdomain: subdomain
     }
-    const data = await this.client.fetch(this.showQuery, variables)
+    const data = await this.client.fetch(this.showQuery, {input})
     return data.showProducts && data.showProducts.products || []
   }
 }

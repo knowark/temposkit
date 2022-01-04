@@ -15,6 +15,8 @@ export class TemposShowComponent extends Component {
 
     const urlParams = new URLSearchParams(this.global.location.search)
     this.tenant = this.tenant || urlParams.get('tenant') || 'demo'
+    this.subdomain = this.subdomain || urlParams.get('subdomain') 
+    || 'demo-69203cb72376'
     this.limit = this.limit || urlParams.get('limit') || 12
     this.offset = this.offset || urlParams.get('offset') || 0
 
@@ -23,7 +25,7 @@ export class TemposShowComponent extends Component {
   }
 
   reflectedProperties() {
-    return ['tenant', 'limit', 'offset']
+    return ['tenant','subdomain', 'limit', 'offset']
   }
 
   render() {
@@ -62,11 +64,18 @@ export class TemposShowComponent extends Component {
   }
 
   async load() {
+    const domain =
+      (JSON.stringify([['status', '=', `activated`]]))
     const tenant = this.tenant
+    const subdomain = this.subdomain
     const filter = {
-      limit: parseInt(this.limit), offset: parseInt(this.offset) }
+      limit: parseInt(this.limit), 
+      offset: parseInt(this.offset), domain: domain
+    }
   
-    this.products = await this.showInformer.showProducts({tenant, filter})
+    this.products = await this.showInformer.showProducts({
+      tenant, filter, subdomain
+    })
 
     this.render()
 

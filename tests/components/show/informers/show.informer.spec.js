@@ -47,10 +47,13 @@ describe('ShowInformer', () => {
 
     const tenant = 'demo'
     const filter= { limit: 6, offset: 0}
-    const products = await informer.showProducts({tenant, filter})
+    const subdomain = 'demo-12252qwe'
+    const products = await informer.showProducts({tenant, filter, subdomain})
 
     expect(products).toEqual([
-      {id: '001', name: 'Ball'},  {id: '002', name: 'Car'}])
+      {id: '001', name: 'Ball'},
+      {id: '002', name: 'Car'}
+    ])
     expect(client.query.replace(/\s/g, '')).toEqual(`
     query ShowProducts($input: ShowProductsInput) {             
       showProducts(input: $input) {                       
@@ -67,8 +70,11 @@ describe('ShowInformer', () => {
       }                                                  
     }`.replace(/\s/g, ''))
     expect(client.variables).toEqual({
-      tenant: 'demo',
-      filter: { limit: 6, offset: 0 }
+      input:{
+        tenant: 'demo',
+        subdomain: 'demo-12252qwe',
+        filter: { limit: 6, offset: 0 }
+      }
     })
   })
 
@@ -76,6 +82,7 @@ describe('ShowInformer', () => {
     const client = informer.client
 
     const tenant = 'demo'
+    const subdomain = 'demo-12252qwe'
     const filter= { limit: 6, offset: 0}
 
     informer.client.result = {
@@ -84,12 +91,15 @@ describe('ShowInformer', () => {
       }
     }
 
-    const products = await informer.showProducts({tenant, filter})
+    const products = await informer.showProducts({tenant, filter, subdomain})
 
     expect(products).toEqual([])
     expect(client.variables).toEqual({
-      tenant: 'demo',
-      filter: { limit: 6, offset: 0 }
+      input:{
+        tenant: 'demo',
+        subdomain: 'demo-12252qwe',
+        filter: { limit: 6, offset: 0 }
+      }
     })
   })
 
